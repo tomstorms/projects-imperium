@@ -1,0 +1,7 @@
+{
+    "env": {
+        "MONGO_COLLECTION": "imperium",
+        "MONGO_USERNAME": "imperium_usr",
+        "MONGO_PASSWORD": "1RgI5jFkGl7PbwII"
+    }
+}
