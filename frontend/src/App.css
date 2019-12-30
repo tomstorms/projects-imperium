@@ -1,0 +1,135 @@
+/* Variables */
+:root {
+    --primaryColor: #317EEB;
+    --mainWhite: #fff;
+    --offWhite: #f7f7f7;
+    --mainBlack: #222;
+    --mainGrey: #ececec;
+    --darkGrey: #cfcfcf;
+    --mainTransition: all 0.3s linear;
+    --mainSpacing: 3px;
+    --lightShadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
+    --darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+/* Globals */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--mainBlack);
+    background: var(--mainWhite);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 1.4;
+}
+
+h1 {
+    font-size: 3em;
+    line-height: 1;
+    margin-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 0.75em;
+}
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1;
+    margin-bottom: 1em;
+}
+h4 {
+    font-size: 1.2em;
+    line-height: 1.25;
+    margin-bottom: 1.25em;
+}
+
+h5 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 1.5em;
+}
+
+h6 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 1.5em;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s;
+    cursor: pointer;
+}
+.btn:hover {
+    background: transparent;
+    color: #999;
+}
+.btn:focus,
+.btn:active {
+    outline: none;
+}
+.btn-primary {
+    color: var(--mainWhite);
+    background: var(--primaryColor);
+    border: 3px solid var(--primaryColor);
+}
+.btn-primary:hover {
+    background: transparent;
+    color: var(--primaryColor);
+}
+
+/* Loading Bar */
+.loading {
+    text-transform: capitalize;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* Error */
+.error {
+    text-align: center;
+    text-transform: uppercase;
+    margin: 2rem 0;
+}
+
+/* Form Controls */
+form .form-control {
+    margin-bottom: 1rem;
+}
+
+form .form-actions {
+    margin-bottom: 1.5rem;
+}
+
+form .form-control label {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+form input,
+form select,
+form textarea {
+    display: block;
+    margin-bottom: .5rem;
+    width: 100%;
+    margin: 0;
+    padding: 0.5rem;
+    outline: none;
+    font-size: inherit;
+}

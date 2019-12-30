@@ -1,0 +1,9 @@
+.navbar {
+    width: 40rem;
+    max-width: 80%;
+    margin: 5rem auto;
+}
+
+.navbar .logo {
+    max-width: 200px;
+}

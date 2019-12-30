@@ -1,0 +1,11 @@
+.page--home {
+    width: 40rem;
+    max-width: 80%;
+    margin: 5rem auto;
+}
+.page--home .logo {
+    max-width: 200px;
+}
+.page--home .description {
+    margin-bottom: 1rem;
+}
