@@ -16,25 +16,25 @@ import './App.css';
 
 class App extends Component {
   state = {
-    token: sessionStorage.getItem('token'),
+    token: localStorage.getItem('token'),
   }
 
   login = (token) => {
-    sessionStorage.setItem('token', token);
+    localStorage.setItem('token', token);
     this.setState({token: token });
   }
 
   logout = () => {
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
     this.setState({token: null });
   }
 
   render() {
+    console.log(this.state);
     return (
       <BrowserRouter>
         <AuthContext.Provider value={{
             token: this.state.token,
-            userId: this.state.userId,
             login: this.login,
             logout: this.logout
           }}>
@@ -43,8 +43,9 @@ class App extends Component {
             <Switch>
               {this.state.token && <Redirect from="/" to="/dashboard" exact /> }
               {this.state.token && <Redirect from="/login" to="/dashboard" exact /> }
-              {this.state.token && <Route path="/dashboard" component={DashboardPage} /> }
+              {this.state.token && <Route path="/dashboard" component={DashboardPage} exact /> }
 
+              {!this.state.token && <Redirect from="/dashboard" to="/login" exact /> }
               {!this.state.token && <Route path="/" component={HomePage} exact /> }
               {!this.state.token && <Route path="/login" component={LoginPage} exact /> }
               {!this.state.token && <Route path="/register" component={LoginRegisterPage} exact /> }
