@@ -9,7 +9,6 @@ export default class LoginRegister extends Component {
 
     constructor(props) {
         super(props);
-        this.usernameEl = React.createRef();
         this.emailEl = React.createRef();
         this.passwordEl = React.createRef();
     }
@@ -17,49 +16,51 @@ export default class LoginRegister extends Component {
     submitHandler = (event) => {
         event.preventDefault();
 
-        const username = this.usernameEl.current.value;
         const email = this.emailEl.current.value;
         const password = this.passwordEl.current.value;
 
-        if (username.trim().length === 0 || email.trim().length === 0 || password.trim().length === 0) {
-            alert('You must enter a username, email address and password');
+        if (email.trim().length === 0 || password.trim().length === 0) {
+            alert('You must enter an email address and password');
             return;
         }
 
         let requestBody = {
-            username: username,
             email: email,
             password: password,
         };
 
-        fetch(`http://${process.env.REACT_APP_API_SERVER}/auth/local/register`, {
+        fetch(`http://${process.env.REACT_APP_API_SERVER}/users/register`, {
             method: 'POST',
             body: JSON.stringify(requestBody),
             headers: {
                 'Content-Type': 'application/json',
             }
-        }).then(response => response.json())
-        .then(resData => {
+        }).then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Failed!');
+            }
+            return res.json();
+        }).then(resData => {
             if (resData.status) {
                 // Failed. Has Status value 
                 if ((resData.status) !== 200 && resData.status !== 201) {
                     let errMessage = 'Failed!';
-                    if (resData.message[0].messages[0].message) {
-                        errMessage = resData.message[0].messages[0].message;
+                    if (resData.message) {
+                        errMessage = resData.message;
                     }
                     throw new Error(errMessage);
                 }
             }
             else {
                 // Successful response
-                if (resData.jwt) {
-                    this.context.login(resData.jwt);
+                if (resData.token) {
+                    this.context.login(resData.token, resData.user_role);
                     window.location.href = '/dashboard';
                 }
                 else {
                     let errMessage = 'Failed!';
-                    if (resData.message[0].messages[0].message) {
-                        errMessage = resData.message[0].messages[0].message;
+                    if (resData.message) {
+                        errMessage = resData.message;
                     }
                     throw new Error(errMessage);
                 }
@@ -75,10 +76,6 @@ export default class LoginRegister extends Component {
             <section className="page--login page--login-register">
                 <h1>Create an Account</h1>
                 <form className="form--login" onSubmit={this.submitHandler}>
-                    <div className="form-control">
-                        <label htmlFor="username">Username</label>
-                        <input type="username" id="username" ref={this.usernameEl}></input>
-                    </div>
                     <div className="form-control">
                         <label htmlFor="email">Email</label>
                         <input type="email" id="email" ref={this.emailEl}></input>

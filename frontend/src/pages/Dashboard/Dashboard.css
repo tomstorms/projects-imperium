@@ -1,0 +1,8 @@
+.page--dashboard {
+    width: 40rem;
+    max-width: 80%;
+    margin: 5rem auto;
+}
+.page--dashboard .description {
+    margin-bottom: 1rem;
+}

@@ -24,41 +24,33 @@ export default class Login extends Component {
         }
 
         let requestBody = {
-            identifier: email,
+            email: email,
             password: password,
         };
 
-        fetch(`http://${process.env.REACT_APP_API_SERVER}/auth/local`, {
+        fetch(`http://${process.env.REACT_APP_API_SERVER}/users/login`, {
             method: 'POST',
             body: JSON.stringify(requestBody),
             headers: {
                 'Content-Type': 'application/json',
             }
-        }).then(response => response.json())
-        .then(resData => {
-            if (resData.status) {
-                // Failed. Has Status value 
-                if ((resData.status) !== 200 && resData.status !== 201) {
-                    let errMessage = 'Failed!';
-                    if (resData.message[0].messages[0].message) {
-                        errMessage = resData.message[0].messages[0].message;
-                    }
-                    throw new Error(errMessage);
-                }
+        }).then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Failed!');
+            }
+            return res.json();
+        }).then(resData => {
+            // Successful response
+            if (resData.token) {
+                this.context.login(resData.token, resData.user_role);
+                window.location.href = '/dashboard';
             }
             else {
-                // Successful response
-                if (resData.jwt) {
-                    this.context.login(resData.jwt);
-                    window.location.href = '/dashboard';
+                let errMessage = 'Failed!';
+                if (resData.message) {
+                    errMessage = resData.message;
                 }
-                else {
-                    let errMessage = 'Failed!';
-                    if (resData.message[0].messages[0].message) {
-                        errMessage = resData.message[0].messages[0].message;
-                    }
-                    throw new Error(errMessage);
-                }
+                throw new Error(errMessage);
             }
         }).catch(err => {
             alert(err);
