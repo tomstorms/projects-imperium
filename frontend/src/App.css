@@ -68,7 +68,7 @@ h6 {
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
-    border: 1px solid transparent;
+    border: 1px solid #CCC;
     padding: .375rem .75rem;
     font-size: 1rem;
     line-height: 1.5;
@@ -132,4 +132,11 @@ form textarea {
     padding: 0.5rem;
     outline: none;
     font-size: inherit;
+}
+
+/* Page Styles */
+.page {
+    width: 40rem;
+    max-width: 80%;
+    margin: 5rem auto;
 }

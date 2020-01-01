@@ -1,0 +1,30 @@
+.roomCategoryList {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    width: 40rem;
+    max-width: 90%;
+}
+
+.roomCategoryList--item {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.roomCategoryList--data-name {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+.roomCategoryList--data-price {
+    font-size: 90%;
+    color: #999;
+}
+
+.roomCategoryList--actions .btn {
+    margin: 0 0.25rem 0 ;
+}

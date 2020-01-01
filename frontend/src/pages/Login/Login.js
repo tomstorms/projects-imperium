@@ -59,7 +59,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <section className="page--login page--login-home">
+            <section className="page page--login page--login-home">
                 <h1>Login</h1>
                 <form className="form--login" onSubmit={this.submitHandler}>
                     <div className="form-control">

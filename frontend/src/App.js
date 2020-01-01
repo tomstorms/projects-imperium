@@ -10,6 +10,8 @@ import DashboardPage from './pages/Dashboard/Dashboard';
 import LogoutPage from './pages/Login/Logout';
 import ErrorPage from './pages/Error/Error';
 import Navbar from './components/Navbar/Navbar';
+import RoomsPage from './pages/Rooms/Rooms';
+import RoomCategoryPage from './pages/RoomCategory/RoomCategory';
 // import BookingsPage from './pages/Bookings';
 // import EventsPage from './pages/Events';
 
@@ -32,7 +34,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <BrowserRouter>
         <AuthContext.Provider value={{
@@ -47,8 +48,11 @@ class App extends Component {
               {this.state.token && <Redirect from="/login" to="/dashboard" exact /> }
               {this.state.token && <Route path="/dashboard" component={DashboardPage} exact /> }
               {this.state.token && <Route path="/logout" component={LogoutPage} exact /> }
+              {this.state.token && <Route path="/rooms" component={RoomsPage} exact /> }
+              {this.state.token && <Route path="/room-category" component={RoomCategoryPage} exact /> }
 
               {!this.state.token && <Redirect from="/dashboard" to="/login" exact /> }
+              {!this.state.token && <Redirect from="/rooms" to="/login" exact /> }
               {!this.state.token && <Route path="/" component={HomePage} exact /> }
               {!this.state.token && <Route path="/login" component={LoginPage} exact /> }
               {!this.state.token && <Route path="/register" component={LoginRegisterPage} exact /> }

@@ -21,16 +21,9 @@ const Navbar = props => (
                             <NavLink to="/"><img src={Logo} alt="Imperium" className="logo" /></NavLink>
                             <nav className="navbar__items">
                                 <ul>
-                                    {!context.token && 
-                                    <li><NavLink to="/auth">Authenticate</NavLink></li>
-                                    }
-                                    <li><NavLink to="/events">Events</NavLink></li>
-                                    {context.token && 
-                                    <React.Fragment>
-                                        <li><NavLink to="/bookings">Bookings</NavLink></li>
-                                        <li><button onClick={context.logout}>Logout</button></li>
-                                    </React.Fragment>
-                                    }
+                                    <li><NavLink to="/rooms">Rooms</NavLink></li>
+                                    <li><NavLink to="/room-category">Room Categories</NavLink></li>
+                                    <li><NavLink to="/logout">Logout</NavLink></li>
                                 </ul>
                             </nav>
                         </header>
