@@ -117,7 +117,11 @@ class RoomCategoryPage extends Component {
                 return res.json();
             }).then(resData => {
                 this.setState(prevState => {
-                    const updatedRoomCategoryData = [...prevState.roomCategoryData];
+                    let updatedRoomCategoryData = [];
+                    if (prevState.roomCategoryData && prevState.roomCategoryData.length > 0) {
+                        updatedRoomCategoryData = [...prevState.roomCategoryData];
+                    }
+
                     updatedRoomCategoryData.push({
                         _id: resData.createdRoomCategory._id,
                         name: resData.createdRoomCategory.name,

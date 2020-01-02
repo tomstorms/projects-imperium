@@ -4,7 +4,7 @@ import './RoomCategoryList.css';
 
 const RoomCategoryList = props => (
     <ul className="roomCategoryList">
-        {props.data.map(roomCategory => {
+        { props.data && props.data.length > 0 && props.data.map(roomCategory => {
             return (
                 <li key={roomCategory._id} className="roomCategoryList--item">
                     <div className="roomCategoryList--data">
@@ -18,6 +18,9 @@ const RoomCategoryList = props => (
                 </li>
             );
         })}
+        { (!props.data || props.data.length===0) &&
+        <p>There are no Room Categories to display</p>
+        }
     </ul>
 )
 
