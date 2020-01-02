@@ -8,8 +8,9 @@ import RoomCategoryList from '../../components/RoomCategoryList/RoomCategoryList
 class RoomCategoryPage extends Component {
     state = {
         isLoading: false,
-        roomCategoryData: [],
         isEditing: false,
+        isCreating: false,
+        roomCategoryData: [],
         selectedRoomCategoryObj: null,
     };
 
@@ -76,6 +77,10 @@ class RoomCategoryPage extends Component {
         }
     };
 
+    createHandler = () => {
+        this.setState({selectedRoomCategoryObj: null, isCreating: true});
+    }
+
     editHandler = roomCategoryID => {
         this.setState(prevState => {
             const selectedRoomCategory = prevState.roomCategoryData.find(e => e._id === roomCategoryID);
@@ -85,7 +90,6 @@ class RoomCategoryPage extends Component {
     }
 
     modalConfirmHandler = () => {
-        const roomCategoryID = this.state.selectedRoomCategoryObj._id;
         const name = this.roomCategoryNameElRef.current.value;
         const price = +this.roomCategoryPriceElRef.current.value;
 
@@ -93,41 +97,79 @@ class RoomCategoryPage extends Component {
             return;
         }
 
-        const requestBody = {
-            _id: roomCategoryID,
-            name: name,
-            price: price
-        };
+        if (this.state.isCreating) {
+            const requestBody = {
+                name: name,
+                price: price
+            };
 
-        fetch(`http://${process.env.REACT_APP_API_SERVER}/room-category/${roomCategoryID}`, {
-            method: 'PATCH',
-            body: JSON.stringify(requestBody),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + this.context.token,
-            }
-        }).then(res => {
-            if (res.status !== 200 && res.status !== 201) {
-                throw new Error('Failed!');
-            }
-            return res.json();
-        }).then(resData => {
-            this.setState(prevState => {
-                const updatedRoomCategoryData = prevState.roomCategoryData.map(el => el._id === resData.updatedRoomCategory._id ? { 
-                    ...el, 
-                    name: resData.updatedRoomCategory.name,
-                    price: resData.updatedRoomCategory.price,
-                }: el);
-                return { roomCategoryData: updatedRoomCategoryData, selectedRoomCategoryObj: null, isEditing: false };
+            fetch(`http://${process.env.REACT_APP_API_SERVER}/room-category/`, {
+                method: 'POST',
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.context.token,
+                }
+            }).then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Failed!');
+                }
+                return res.json();
+            }).then(resData => {
+                this.setState(prevState => {
+                    const updatedRoomCategoryData = [...prevState.roomCategoryData];
+                    updatedRoomCategoryData.push({
+                        _id: resData.createdRoomCategory._id,
+                        name: resData.createdRoomCategory.name,
+                        price: resData.createdRoomCategory.price,
+                    });
+                    return { roomCategoryData: updatedRoomCategoryData, selectedRoomCategoryObj: null, isEditing: false, isCreating: false };
+                });
+            }).catch(err => {
+                console.log(err);
+                this.setState({isLoading: false});
             });
-        }).catch(err => {
-            console.log(err);
-            this.setState({isLoading: false});
-        });
+
+        }
+        else if (this.state.isEditing) {
+            const roomCategoryID = this.state.selectedRoomCategoryObj._id;
+
+            const requestBody = {
+                _id: roomCategoryID,
+                name: name,
+                price: price
+            };
+
+            fetch(`http://${process.env.REACT_APP_API_SERVER}/room-category/${roomCategoryID}`, {
+                method: 'PATCH',
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.context.token,
+                }
+            }).then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Failed!');
+                }
+                return res.json();
+            }).then(resData => {
+                this.setState(prevState => {
+                    const updatedRoomCategoryData = prevState.roomCategoryData.map(el => el._id === resData.updatedRoomCategory._id ? { 
+                        ...el, 
+                        name: resData.updatedRoomCategory.name,
+                        price: resData.updatedRoomCategory.price,
+                    }: el);
+                    return { roomCategoryData: updatedRoomCategoryData, selectedRoomCategoryObj: null, isEditing: false };
+                });
+            }).catch(err => {
+                console.log(err);
+                this.setState({isLoading: false});
+            });
+        }
     }
 
     modalCancelHandler = () => {
-        this.setState({selectedRoomCategoryObj: null, isEditing: false});
+        this.setState({selectedRoomCategoryObj: null, isEditing: false, isCreating: false});
     };
 
     render() {
@@ -141,7 +183,8 @@ class RoomCategoryPage extends Component {
                         onEdit={this.editHandler}
                     />
 
-                    { (this.state.isEditing && this.state.selectedRoomCategoryObj) &&
+                    { 
+                        (this.state.isEditing && this.state.selectedRoomCategoryObj) &&
                         <Modal title="Edit Room Category" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
                             <form>
                                 <div className="form-control">
@@ -151,6 +194,24 @@ class RoomCategoryPage extends Component {
                                 <div className="form-control">
                                     <label htmlFor="roomCategoryPrice">Price</label>
                                     <input type="number" id="roomCategoryPrice" ref={this.roomCategoryPriceElRef} defaultValue={this.state.selectedRoomCategoryObj.price}></input>
+                                </div>
+                            </form>
+                        </Modal>
+                    } 
+
+                    <button className="btn" onClick={this.createHandler}>Create New</button>
+
+                    { 
+                        (this.state.isCreating) &&
+                        <Modal title="Add a new Room Category" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
+                            <form>
+                                <div className="form-control">
+                                    <label htmlFor="roomCategoryName">Room Category Name:</label>
+                                    <input type="text" id="roomCategoryName" ref={this.roomCategoryNameElRef}></input>
+                                </div>
+                                <div className="form-control">
+                                    <label htmlFor="roomCategoryPrice">Price</label>
+                                    <input type="number" id="roomCategoryPrice" ref={this.roomCategoryPriceElRef}></input>
                                 </div>
                             </form>
                         </Modal>
