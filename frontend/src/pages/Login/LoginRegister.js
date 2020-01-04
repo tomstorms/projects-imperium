@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './Login.css';
 import AuthContext from '../../context/auth-context';
 
+import LoginHero from '../../images/login/hero.png';
 export default class LoginRegister extends Component {
     static contextType = AuthContext;
 
@@ -74,22 +75,29 @@ export default class LoginRegister extends Component {
     render() {
         return (
             <section className="page page--login page--login-register">
-                <h1>Create an Account</h1>
-                <form className="form--login" onSubmit={this.submitHandler}>
-                    <div className="form-control">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" ref={this.emailEl}></input>
-                    </div>
-                    <div className="form-control">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" ref={this.passwordEl}></input>
-                    </div>
-                    <div className="form-actions">
-                        <button type="submit" className="btn btn-primary">Register</button>
-                    </div>
+                <div class="pane--left">
+                    <h1>Let's Get Started.</h1>
+                    <p className="description">Complete this form and you're only a click away from setting up your establishment.</p>
 
-                    <p>Already have an account? <Link to="/login">Login</Link></p>
-                </form>
+                    <form className="form--login" onSubmit={this.submitHandler}>
+                        <div className="form-control">
+                            <label htmlFor="email">Email:</label>
+                            <input type="email" id="email" ref={this.emailEl}></input>
+                        </div>
+                        <div className="form-control">
+                            <label htmlFor="password">Password:</label>
+                            <input type="password" id="password" ref={this.passwordEl}></input>
+                        </div>
+                        <div className="form-actions">
+                            <button type="submit" className="btn btn-primary btn-rounded">Register Now</button>
+                        </div>
+
+                        <p>Already have an account? <Link to="/login">Login now</Link>.</p>
+                    </form>
+                </div>
+                <div class="pane--right">
+                    <img src={LoginHero} alt="Imperium" className="logo" />
+                </div>
             </section>
         );
     }

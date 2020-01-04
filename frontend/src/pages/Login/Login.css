@@ -1,3 +1,14 @@
-.form--login {
-    margin: 2rem auto;
+.page--login {
+    padding: 10rem 0;
+}
+
+.page--login .description {
+    margin-bottom: 2.5rem;
+    opacity: 0.6;
+    max-width: 80%;
+}
+
+.page--login form {
+    width: 100%;
+    max-width: 80%;
 }

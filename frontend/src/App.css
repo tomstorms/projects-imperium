@@ -1,8 +1,9 @@
 /* Variables */
 :root {
-    --primaryColor: #317EEB;
+    --primaryColor: #4d79f6;
+    --primaryHoverColor: #3567f5;
     --mainWhite: #fff;
-    --offWhite: #f7f7f7;
+    --offWhite: #F9F9F9;
     --mainBlack: #222;
     --mainGrey: #ececec;
     --darkGrey: #cfcfcf;
@@ -21,43 +22,76 @@
 
 body {
     color: var(--mainBlack);
-    background: var(--mainWhite);
+    background: var(--offWhite);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    line-height: 1.4;
+    margin-top: 70px;
+    -webkit-font-smoothing: antialiased;
+    font-size: 1em;
+    line-height: 1.5em;
 }
 
 h1 {
+    font-weight: normal;
     font-size: 3em;
     line-height: 1;
     margin-bottom: 0.5em;
+    letter-spacing: -4px;
 }
 
 h2 {
+    font-weight: normal;
     font-size: 2em;
     margin-bottom: 0.75em;
+    letter-spacing: -3px;
 }
 
 h3 {
-    font-size: 1.5em;
+    font-weight: normal;
+    font-size: 1.75em;
     line-height: 1;
     margin-bottom: 1em;
+    letter-spacing: -1px;
 }
 h4 {
-    font-size: 1.2em;
+    font-size: 1.5em;
     line-height: 1.25;
     margin-bottom: 1.25em;
+    letter-spacing: -1px;
 }
 
 h5 {
-    font-size: 1em;
+    font-weight: normal;
+    font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 1.5em;
+    letter-spacing: -1px;
 }
 
 h6 {
+    font-weight: normal;
     font-size: 1em;
     font-weight: bold;
     margin-bottom: 1.5em;
+    letter-spacing: -1px;
+}
+
+p {
+    letter-spacing: -0.25px;
+    font-size: 1em;
+    line-height: 1.5em;
+}
+p.description {
+    opacity: 0.6;
+}
+
+
+a {
+    color: var(--primaryColor);
+    text-decoration: none;
+    letter-spacing: -0.25px;
+}
+a:hover {   
+    color: var(--primaryHoverColor);
 }
 
 /* Buttons */
@@ -69,16 +103,17 @@ h6 {
     vertical-align: middle;
     user-select: none;
     border: 1px solid #CCC;
-    padding: .375rem .75rem;
+    padding: .375rem 1.5rem;
     font-size: 1rem;
     line-height: 1.5;
     border-radius: .25rem;
     transition: color .15s;
     cursor: pointer;
+    transition: all 0.4s ease 0s;
+    text-decoration: none;
 }
 .btn:hover {
-    background: transparent;
-    color: #999;
+    color: var(--mainWhite);
 }
 .btn:focus,
 .btn:active {
@@ -90,8 +125,21 @@ h6 {
     border: 3px solid var(--primaryColor);
 }
 .btn-primary:hover {
-    background: transparent;
-    color: var(--primaryColor);
+    background: var(--primaryHoverColor);
+    border: 3px solid var(--primaryHoverColor);
+}
+.btn-rounded {
+    border-radius: 30px;
+}
+.btn-white {
+    color: var(--mainBlack);
+    background: var(--mainWhite);
+    border: 3px solid var(--mainWhite);
+    box-shadow: 0px 7px 20px -10px rgba(0,0,0,0.25);
+}
+.btn-white:hover {
+    color: var(--primaryHoverColor);
+    background: var(--mainWhite);
 }
 
 /* Loading Bar */
@@ -117,9 +165,14 @@ form .form-actions {
     margin-bottom: 1.5rem;
 }
 
+form .form-actions .btn {
+    margin-right: 1rem;
+}
+
 form .form-control label {
     display: block;
     margin-bottom: .5rem;
+    font-size: 90%;
 }
 
 form input,
@@ -134,9 +187,35 @@ form textarea {
     font-size: inherit;
 }
 
+img {
+    max-width: 100%;
+}
+
 /* Page Styles */
-.page {
-    width: 40rem;
+.page-wrapper {
+    background: #eaf0f7;
+}
+section, .section {
+    width: 90%;
     max-width: 80%;
-    margin: 5rem auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+section .pane--left,
+.section .pane--left {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+}
+section .pane--right,
+.section .pane--right {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
 }

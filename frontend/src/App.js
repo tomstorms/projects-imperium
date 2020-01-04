@@ -3,13 +3,15 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 import AuthContext from './context/auth-context';
 
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+
 import HomePage from './pages/Home/Home';
 import LoginPage from './pages/Login/Login';
 import LoginRegisterPage from './pages/Login/LoginRegister';
 import DashboardPage from './pages/Dashboard/Dashboard';
 import LogoutPage from './pages/Login/Logout';
 import ErrorPage from './pages/Error/Error';
-import Navbar from './components/Navbar/Navbar';
 import RoomsPage from './pages/Rooms/Rooms';
 import RoomCategoryPage from './pages/RoomCategory/RoomCategory';
 // import BookingsPage from './pages/Bookings';
@@ -41,8 +43,8 @@ class App extends Component {
             login: this.login,
             logout: this.logout
           }}>
-          <Navbar></Navbar>
-          <main className="main-content">
+          <Header></Header>
+          <main className="page-wrapper">
             <Switch>
               {this.state.token && <Redirect from="/" to="/dashboard" exact /> }
               {this.state.token && <Redirect from="/login" to="/dashboard" exact /> }
@@ -60,6 +62,7 @@ class App extends Component {
               <Route path="/404" component={ErrorPage}/>
             </Switch>
           </main>
+          <Footer></Footer>
         </AuthContext.Provider>
       </BrowserRouter>
     );

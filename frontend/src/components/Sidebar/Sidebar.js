@@ -4,22 +4,22 @@ import { NavLink } from 'react-router-dom';
 import AuthContext from '../../context/auth-context';
 
 import Logo from '../../images/logo.png';
-import './Navbar.css';
+import './Sidebar.css';
 
-const Navbar = props => (
+const Sidebar = props => (
     <AuthContext.Consumer>
         {(context) => {
             return (
                 <React.Fragment>
                     {!context.token && 
-                        <header className="navbar">
+                        <header className="sidebar">
                             <NavLink to="/"><img src={Logo} alt="Imperium" className="logo" /></NavLink>
                         </header>
                     }
                     {context.token && 
-                        <header className="navbar">
+                        <header className="sidebar">
                             <NavLink to="/"><img src={Logo} alt="Imperium" className="logo" /></NavLink>
-                            <nav className="navbar__items">
+                            <nav className="sidebar__items">
                                 <ul>
                                     <li><NavLink to="/rooms">Rooms</NavLink></li>
                                     <li><NavLink to="/room-category">Room Categories</NavLink></li>
@@ -34,4 +34,4 @@ const Navbar = props => (
     </AuthContext.Consumer>
 );
 
-export default Navbar;
+export default Sidebar;

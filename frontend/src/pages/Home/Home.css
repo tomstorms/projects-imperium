@@ -1,3 +1,17 @@
+
+.page-wrapper {
+    background: #fff !important;
+}
+
+.page--home {
+    padding: 10rem 0;
+}
+
+.page--home .btn {
+    font-size: 120%;
+}
+
 .page--home .description {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+    max-width: 80%;
 }
