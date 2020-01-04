@@ -1,10 +1,6 @@
-
-.page-wrapper {
-    background: #fff !important;
-}
-
 .page--home {
     padding: 10rem 0;
+    background: #fff;
 }
 
 .page--home .btn {

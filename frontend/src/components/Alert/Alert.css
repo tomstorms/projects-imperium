@@ -1,0 +1,22 @@
+/* Alert Styles */
+.alert {
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    display: flex;
+    font-size: 90%;
+    line-height: normal;
+    border: 1px solid #ccc;
+    width: 100%;
+    background: transparent;
+}
+
+.alert--danger {
+    border-color: red;
+    color: red;
+}
+
+.alert--success {
+    border-color: green;
+    color: green;
+}
