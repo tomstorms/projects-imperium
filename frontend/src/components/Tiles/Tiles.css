@@ -27,11 +27,11 @@ section.section--tiles .tile {
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
 }
-section.section--tiles .tile .tile-body {
+section.section--tiles .tile .tile-header {
     flex: 1 1 auto;
     padding: 1.25rem;
 }
-section.section--tiles .tile .tile-heading {
+section.section--tiles .tile .tile-header .tile-heading {
     margin-bottom: 8px;
     text-transform: capitalize;
     letter-spacing: .02em;
@@ -41,9 +41,18 @@ section.section--tiles .tile .tile-heading {
     color: #50649c;
     text-shadow: 0 0 1px rgba(239,242,249,.1);
 }
-section.section--tiles .tile .tile-description {
+section.section--tiles .tile .tile-header .tile-description {
     line-height: 1.6;
     font-size: 13px;
     opacity: 0.6;
     margin-bottom: 8px;
+}
+
+section.section--tiles .tile .tile-body {
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+section.section--tiles .tile .tile-header + .tile-body {
+    padding-top: 0 !important;
 }

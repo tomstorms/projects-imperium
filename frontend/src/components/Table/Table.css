@@ -1,0 +1,49 @@
+.table {
+    width: 100%;
+    color: #7286a2;
+    font-size: 13px;
+    border-collapse: collapse;
+}
+
+.table thead tr {
+    border-bottom: 2px solid #eaf0f7;
+}
+
+.table thead tr th {
+    font-weight: 500;
+    color: #50649c;
+    font-size: 13px;
+    text-align: left;
+}
+
+.table th,
+.table td {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table td {
+    vertical-align: middle;
+    color: #7286a2;
+}
+.table td.actions {
+    text-align: right;
+}
+
+.table td.actions .btn {
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+}
+
+.table td.actions .btn--edit {
+    color: darkblue;
+}
+
+.table td.actions .btn--delete {
+    color: darkred;
+}
+.table td.actions .btn--delete:hover {
+    color: red;
+    border-color: red;
+}

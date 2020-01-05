@@ -5,24 +5,20 @@ import './Modal.css';
 const modal = props => (
     <React.Fragment>
         <div className="modal">
-            <header className="modal__header">
-                <h1>{props.title}</h1>
-            </header>
-            <section className="modal__content">
+            <div className="modal__header">
+                <div className="modal__tite">{props.title}</div>
+            </div>
+            <div className="modal__content">
                 {props.children}
-            </section>
-            <section className="modal__actions">
+            </div>
+            <div className="modal__actions">
                 {props.canCancel && (
-                    <button className="btn" onClick={props.onCancel}>
-                        Cancel
-                    </button>
+                    <button className="btn btn--cancel" onClick={props.onCancel}>Cancel</button>
                 )}
                 {props.canConfirm && (
-                    <button className="btn" onClick={props.onConfirm}>
-                        {props.confirmText}
-                    </button> 
+                    <button className="btn btn--confirm" onClick={props.onConfirm}>{props.confirmText}</button> 
                 )}
-            </section>
+            </div>
         </div>
         <div className="modal__backdrop"></div>
     </React.Fragment>

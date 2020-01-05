@@ -155,7 +155,7 @@ header {
     left: 0;
     right: 0;
     height: 70px;
-    z-index: 999;
+    z-index: 99;
     background: #fff;
     box-shadow: 0 0 3px rgba(31,30,47,.05);
 }
@@ -237,6 +237,9 @@ img {
 }
 
 /* Page Styles */
+main {
+    min-height: 20vh;
+}
 .page-wrapper {
     background: var(--mainBackground);
 }
@@ -278,6 +281,10 @@ section .pane--right,
 section.section--heading {
     padding: 1.5rem 1rem !important;
     flex-direction: column;
+}
+
+section.section--heading .description {
+    font-size: 0.8em;
 }
 
 /* Logged In Styles */

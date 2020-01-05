@@ -1,0 +1,17 @@
+section.section--tiles {
+    display: grid;
+    grid: auto / 99%;
+    grid-gap: 20px;
+}
+section.section--tiles--1 {
+    grid: auto / 99% !important;
+}
+section.section--tiles--2 {
+    grid: auto / 49% 49% !important;
+}
+section.section--tiles--3 {
+    grid: auto / 32% 32% 32% !important;
+}
+section.section--tiles--4 {
+    grid: auto / 24% 24% 24% 24% !important;
+}
