@@ -44,6 +44,24 @@
     right: -30px;
 }
 
+/* Filter Container */
+
+.section--navbar .filter-container {
+    display: flex;
+    justify-items: center;
+}
+
+.section--navbar .filter-container a {
+    display: flex;
+    align-items: center;
+    margin-left: 0.5rem;
+    opacity: 0.5;
+    transition: all 0.2s;
+}
+
+.section--navbar .filter-container a:hover {
+    opacity: 1;;
+}
 
 /* Navbar */
 

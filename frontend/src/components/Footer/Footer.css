@@ -1,9 +1,0 @@
-footer {
-    background: var(--offWhite);
-    min-height: 70px;
-    display: flex;
-    align-items: center;
-    text-align: right;
-    font-size: 70%;
-    color: #999;
-}

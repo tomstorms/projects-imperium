@@ -145,6 +145,44 @@ a:hover {
     background: var(--mainWhite);
 }
 
+/* Header */
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    z-index: 999;
+    background: #fff;
+    box-shadow: 0 0 3px rgba(31,30,47,.05);
+}
+
+.section--navbar {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+header.loggedin .section--navbar {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+/* Footer */
+footer {
+    background: var(--offWhite);
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    font-size: 70%;
+    color: #999;
+}
+
 /* Loading Bar */
 .loading {
     text-transform: capitalize;
@@ -237,13 +275,14 @@ section .pane--right,
 
 section.section--heading {
     padding: 1.5rem 1rem !important;
+    flex-direction: column;
 }
 
 /* Logged In Styles */
 
 .page-title {
     font-size: 18px;
-    margin: 0;
+    margin: 0 0 1rem;
     color: #50649c;
     letter-spacing: 0px;
     font-weight: 500;

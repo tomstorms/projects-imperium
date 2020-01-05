@@ -1,0 +1,26 @@
+.select-container select {
+    padding: 5px 35px 5px 10px;
+    font-size: 85%;
+    border: 1px solid #CCC;
+    height: 34px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    background-position: calc(100% - 15px);
+    background-repeat: no-repeat !important;
+    background-color: var(--offWhite) !important;
+    background-size: 15px;
+}
+
+.select-container select::-ms-expand {
+    display: none; /* Remove default arrow in Internet Explorer 10 and 11 */
+}
+
+/* Target Internet Explorer 9 to undo the custom arrow */
+@media screen and (min-width:0\0) {
+    .select-container select {
+        background: none;
+        padding: 5px;
+    }
+}

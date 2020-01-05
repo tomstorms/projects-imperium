@@ -7,7 +7,7 @@ import HomeHero from '../../images/home/hero.png';
 export default class Home extends Component {
     render() {
         return (
-            <div class="page page--home">
+            <div className="page page--home">
                 <section className="hero">
                     <div className="pane--left">
                         <h1>Empowering Hoteliers!</h1>
