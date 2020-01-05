@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 import AuthContext from '../../../context/auth-context';
 import Spinner from '../../../components/Spinner/Spinner';
 import Modal from '../../../components/Modal/Modal';
-import RoomList from '../../../components/RoomList/RoomList';
 
 import EstablishmentTable from '../../../components/Table/Establishments/EstablishmentTable';
 import TileList from '../../../components/TileList/TileList';
 import TileBlock from '../../../components/Tiles/TileBlock/TileBlock';
+
+import './Establishments.css';
 
 class EstablishmentsPage extends Component {
     state = {
@@ -42,25 +43,6 @@ class EstablishmentsPage extends Component {
             `,
         };
 
-        this.fetchData(requestBody, 'GET', (resData, err) => {
-            if (resData.establishments) {
-                this.setState({estData: resData.establishments});
-            }
-        });
-    }
-
-    saveEstablishment = () => {
-        const requestBody = {
-            query: `
-                query {
-                    establishments {
-                        _id
-                        name
-                    }
-                }
-            `,
-        };
-
         this.fetchData(requestBody, (resData, err) => {
             if (resData.establishments) {
                 this.setState({estData: resData.establishments});
@@ -68,11 +50,106 @@ class EstablishmentsPage extends Component {
         });
     }
 
-    fetchData = (requestBody, method, callback) => {
+    createEstablishment = (data) => {
+        const requestBody = {
+            query: `
+                mutation CreateEstablishment($name: String!) {
+                    createEstablishment(establishmentInput:{
+                        name: $name
+                    }) {
+                        _id
+                        name
+                    }
+                }
+            `,
+            variables: {
+                name: data.name,
+            }
+        };
+
+        this.fetchData(requestBody, (resData, err) => {
+            if (resData.createEstablishment) {
+                this.setState(prevState => {
+                    let estData = [];
+                    if (prevState.estData && prevState.estData.length > 0) {
+                        estData = [...prevState.estData];
+                    }
+
+                    estData.push({
+                        _id: resData.createEstablishment._id,
+                        name: resData.createEstablishment.name,
+                    });
+                    return { estData: estData, selectedEstObj: null, isEditing: false, isCreating: false };
+                });
+
+            }
+        });
+    }
+
+    updateEstablishment = (estId, data) => {
+        const requestBody = {
+            query: `
+                mutation UpdateEstablishment($id: ID!, $name: String!) {
+                    updateEstablishment(establishmentInput:{
+                        _id: $id,
+                        name: $name
+                    }) {
+                        _id
+                        name
+                    }
+                }
+            `,
+            variables: {
+                id: estId,
+                name: data.name,
+            }
+        };
+
+        this.fetchData(requestBody, (resData, err) => {
+            if (resData.updateEstablishment) {
+                this.setState(prevState => {
+                    const updatedEstData = prevState.estData.map(el => el._id === resData.updateEstablishment._id ? { 
+                        ...el, 
+                        name: resData.updateEstablishment.name,
+                    }: el);
+                    return { estData: updatedEstData };
+                });
+                this.setState({selectedEstObj: null, isEditing: false });
+            }
+        });
+    }
+
+    deleteEstablishment = (estId) => {
+        const requestBody = {
+            query: `
+                mutation DeleteEstablishment($id: ID!) {
+                    deleteEstablishment(establishmentInput:{
+                        _id: $id,
+                    })
+                }
+            `,
+            variables: {
+                id: estId,
+            }
+        };
+
+        this.fetchData(requestBody, (resData, err) => {
+            if (resData.deleteEstablishment) {
+                this.setState(prevState => {
+                    const estData = prevState.estData.filter(estItem => {
+                        return estItem._id !== estId;
+                    });
+                    return { estData: estData, selectedEstObj: null, isEditing: false };
+                });
+            }
+        });
+    }
+
+    fetchData = (requestBody, callback) => {
         this.setState({isLoading: true});
 
         fetch(`${process.env.REACT_APP_API_SERVER}/graphql`, {
-            method: method,
+            method: 'POST',
             body: JSON.stringify(requestBody),
             headers: {
                 'Content-Type': 'application/json',
@@ -97,137 +174,49 @@ class EstablishmentsPage extends Component {
             }
             
         }).catch(err => {
-            console.log(err.message);
             this.setState({isLoading: false});
             return;
         });
     };
 
-    deleteHandler = estId => {
-        console.log('delete handler');
-        console.log(estId);
-    //     var confirmModal = window.confirm("Are you sure you want to delete this item?");
-    //     if (confirmModal === true) {
-    //         fetch(`http://${process.env.REACT_APP_API_SERVER}/rooms/${estId}`, {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': 'Bearer ' + this.context.token,
-    //             }
-    //         }).then(res => {
-    //             if (res.status !== 200 && res.status !== 201) {
-    //                 throw new Error('Failed!');
-    //             }
-    //             return res.json();
-    //         }).then(resData => {
-    //             this.setState(prevState => {
-    //                 const updatedRoomData = prevState.roomData.filter(roomItem => {
-    //                     return roomItem._id !== estId;
-    //                 });
-    //                 return { estData: updatedRoomData, selectedEstObj: null, isEditing: false };
-    //             });
-
-    //         }).catch(err => {
-    //             console.log(err);
-    //             this.setState({isLoading: false});
-    //         });
-    //     }
-    };
-
-    // createHandler = () => {
-    //     this.setState({selectedEstObj: null, isCreating: true});
-    // }
+    createHandler = () => {
+        this.setState({selectedEstObj: null, isCreating: true});
+    }
 
     editHandler = estId => {
-        console.log('editHandler');
-        console.log(estId);
         this.setState(prevState => {
             const selectedEst = prevState.estData.find(e => e._id === estId);
-            return {selectedEstObj: selectedEst, isEditing: true};
+            return { selectedEstObj: selectedEst, isEditing: true};
         });
     }
 
+    deleteHandler = estId => {
+        var confirmModal = window.confirm("Are you sure you want to delete this item?");
+        if (confirmModal === true) {
+            this.deleteEstablishment(estId);
+        }
+    };
+
     modalConfirmHandler = () => {
-        console.log('modalConfirmHandler');
         const name = this.estNameElRef.current.value;
 
         if (name.trim().length === 0) {
             return;
         }
 
-    //     if (this.state.isCreating) {
-    //         const requestBody = {
-    //             name: name,
-    //             description: description
-    //         };
-
-    //         fetch(`http://${process.env.REACT_APP_API_SERVER}/rooms/`, {
-    //             method: 'POST',
-    //             body: JSON.stringify(requestBody),
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': 'Bearer ' + this.context.token,
-    //             }
-    //         }).then(res => {
-    //             if (res.status !== 200 && res.status !== 201) {
-    //                 throw new Error('Failed!');
-    //             }
-    //             return res.json();
-    //         }).then(resData => {
-    //             this.setState(prevState => {
-    //                 let updatedRoomData = [];
-    //                 if (prevState.roomData && prevState.roomData.length > 0) {
-    //                     updatedRoomData = [...prevState.roomData];
-    //                 }
-
-    //                 updatedRoomData.push({
-    //                     _id: resData.createdRoom._id,
-    //                     name: resData.createdRoom.name,
-    //                     description: resData.createdRoom.description,
-    //                 });
-    //                 return { estData: updatedRoomData, selectedEstObj: null, isEditing: false, isCreating: false };
-    //             });
-    //         }).catch(err => {
-    //             console.log(err);
-    //             this.setState({isLoading: false});
-    //         });
-
-    //     }
-    //     else if (this.state.isEditing) {
-    //         const estId = this.state.selectedEstObj._id;
-
-    //         const requestBody = {
-    //             _id: estId,
-    //             name: name,
-    //             description: description
-    //         };
-
-    //         fetch(`http://${process.env.REACT_APP_API_SERVER}/rooms/${estId}`, {
-    //             method: 'PATCH',
-    //             body: JSON.stringify(requestBody),
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': 'Bearer ' + this.context.token,
-    //             }
-    //         }).then(res => {
-    //             if (res.status !== 200 && res.status !== 201) {
-    //                 throw new Error('Failed!');
-    //             }
-    //             return res.json();
-    //         }).then(resData => {
-    //             this.setState(prevState => {
-    //                 const updatedRoomData = prevState.roomData.map(el => el._id === resData.updatedRoom._id ? { 
-    //                     ...el, 
-    //                     name: resData.updatedRoom.name,
-    //                     description: resData.updatedRoom.description,
-    //                 }: el);
-    //                 return { estData: updatedRoomData, selectedEstObj: null, isEditing: false };
-    //             });
-    //         }).catch(err => {
-    //             console.log(err);
-    //             this.setState({isLoading: false});
-    //         });
-    //     }
+        if (this.state.isCreating) {
+            const requestBody = {
+                name: name,
+            };
+            this.createEstablishment(requestBody);
+        }
+        else if (this.state.isEditing) {
+            const estId = this.state.selectedEstObj._id;
+            const requestBody = {
+                name: name,
+            };
+            this.updateEstablishment(estId, requestBody);
+        }
     }
 
     modalCancelHandler = () => {
@@ -240,11 +229,13 @@ class EstablishmentsPage extends Component {
             content = (
                 <React.Fragment>
                     <TileList col="1">
-                        <TileBlock heading="Available Establishments">
+                        <TileBlock heading="Available Establishments" tileClass="tile-establishments">
+                            <button className="btn btn-primary btn--new" onClick={this.createHandler}>Create New</button>
                             <EstablishmentTable 
                                 data={this.state.estData} 
                                 onDelete={this.deleteHandler}
                                 onEdit={this.editHandler}
+                                onCreate={this.createHandler}
                             />
                         </TileBlock>
                     </TileList>
@@ -261,24 +252,17 @@ class EstablishmentsPage extends Component {
                         </Modal>
                     } 
 
-                    {/*
-                    <button className="btn" onClick={this.createHandler}>Create New</button>
-
                     { 
                         (this.state.isCreating) &&
-                        <Modal title="Add a new Room" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
+                        <Modal title="Add a new Establishment" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
                             <form>
                                 <div className="form-control">
-                                    <label htmlFor="estName">Room Name:</label>
+                                    <label htmlFor="estName">Establishment Name:</label>
                                     <input type="text" id="estName" ref={this.estNameElRef}></input>
-                                </div>
-                                <div className="form-control">
-                                    <label htmlFor="roomDesc">Room Description:</label>
-                                    <input type="text" id="roomDesc" ref={this.roomDescElRef}></input>
                                 </div>
                             </form>
                         </Modal>
-                    }  */}
+                    } 
                 </React.Fragment>
             );
         }

@@ -10,7 +10,7 @@
 
 .modal__header {
     padding: 1rem;
-    background: blue;
+    background: var(--primaryColor);
     color: white;
 }
 

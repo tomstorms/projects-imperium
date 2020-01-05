@@ -26,18 +26,19 @@ section.section--tiles .tile {
     background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
+    position: relative;
 }
 section.section--tiles .tile .tile-header {
     flex: 1 1 auto;
     padding: 1.25rem;
 }
 section.section--tiles .tile .tile-header .tile-heading {
-    margin-bottom: 8px;
     text-transform: capitalize;
     letter-spacing: .02em;
     font-size: 15px;
     font-weight: 500;
     margin-top: 0;
+    margin-bottom: 0;
     color: #50649c;
     text-shadow: 0 0 1px rgba(239,242,249,.1);
 }

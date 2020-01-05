@@ -5,8 +5,13 @@
     border-collapse: collapse;
 }
 
+.table thead {
+    background: #f1f5fa;
+}
+
 .table thead tr {
     border-bottom: 2px solid #eaf0f7;
+    border: 1px solid #eaf0f7;
 }
 
 .table thead tr th {
@@ -20,12 +25,12 @@
 .table td {
     padding: .75rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6;
 }
 
 .table td {
     vertical-align: middle;
     color: #7286a2;
+    border: 1px solid #eaf0f7;
 }
 .table td.actions {
     text-align: right;
@@ -33,7 +38,6 @@
 
 .table td.actions .btn {
     margin-left: 0.5rem;
-    font-size: 0.75rem;
 }
 
 .table td.actions .btn--edit {

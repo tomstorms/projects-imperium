@@ -107,7 +107,7 @@ a:hover {
     user-select: none;
     border: 1px solid #CCC;
     padding: .375rem 1.5rem;
-    font-size: 1rem;
+    font-size: 0.75rem;
     line-height: 1.5;
     border-radius: .25rem;
     transition: color .15s;
@@ -145,6 +145,7 @@ a:hover {
 .btn-white:hover {
     color: var(--primaryHoverColor);
     background: var(--mainWhite);
+    border-color: var(--mainWhite);
 }
 
 /* Header */
@@ -291,7 +292,7 @@ section.section--heading .description {
 
 .page-title {
     font-size: 18px;
-    margin: 0 0 1rem;
+    margin: 0;
     color: #50649c;
     letter-spacing: 0px;
     font-weight: 500;

@@ -67,7 +67,7 @@
 
 .section--navbar a {
     margin: 0;
-    font-size: 85%;
+    font-size: 0.75rem;
     display: flex;
 }
 
