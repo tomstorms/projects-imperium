@@ -5,7 +5,7 @@ import AuthContext from '../../../context/auth-context';
 import Spinner from '../../../components/Spinner/Spinner';
 import Modal from '../../../components/Modal/Modal';
 
-import EstablishmentTable from '../../../components/Table/Establishments/EstablishmentTable';
+import Table from '../../../components/Table/Table';
 import TileList from '../../../components/TileList/TileList';
 import TileBlock from '../../../components/Tiles/TileBlock/TileBlock';
 
@@ -232,8 +232,9 @@ class EstablishmentsPage extends Component {
                     <TileList col="1">
                         <TileBlock heading="All Establishments" tileClass="tile-establishments">
                             <button className="btn btn-primary btn--new" onClick={this.createHandler}>Create New</button>
-                            <EstablishmentTable 
-                                data={this.state.estData} 
+                            <Table 
+                                data={this.state.estData}
+                                headers={['Name']}
                                 onDelete={this.deleteHandler}
                                 onEdit={this.editHandler}
                                 onCreate={this.createHandler}

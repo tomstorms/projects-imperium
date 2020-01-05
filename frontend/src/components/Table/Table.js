@@ -1,18 +1,15 @@
 import React from 'react';
 
-import '../Table.css';
-import './EstablishmentTable.css';
+import './Table.css';
 
-const headers = ['Name'];
-
-const EstablishmentTable = props => (
+const Table = props => (
     <React.Fragment>
         {(props.data && props.data.length > 0) && (
         <React.Fragment>
             <table className="table">
                 <thead>
                     <tr>
-                        { headers.map((heading,index) => {
+                        { props.headers.map((heading,index) => {
                             return (
                                 <th key={index}>{heading}</th>
                             )
@@ -42,4 +39,4 @@ const EstablishmentTable = props => (
         }
     </React.Fragment>
 )
-export default EstablishmentTable;
+export default Table;
