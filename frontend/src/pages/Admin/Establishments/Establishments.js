@@ -229,7 +229,7 @@ class EstablishmentsPage extends Component {
             content = (
                 <React.Fragment>
                     <TileList col="1">
-                        <TileBlock heading="Available Establishments" tileClass="tile-establishments">
+                        <TileBlock heading="All Establishments" tileClass="tile-establishments">
                             <button className="btn btn-primary btn--new" onClick={this.createHandler}>Create New</button>
                             <EstablishmentTable 
                                 data={this.state.estData} 

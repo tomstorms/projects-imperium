@@ -31,9 +31,13 @@
     vertical-align: middle;
     color: #7286a2;
     border: 1px solid #eaf0f7;
+    border-right: none !important;
 }
+
 .table td.actions {
     text-align: right;
+    border-left: none !important;
+    border-right: 1px solid #eaf0f7 !important;
 }
 
 .table td.actions .btn {

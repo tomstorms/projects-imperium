@@ -145,6 +145,7 @@ a:hover {
 .btn-white:hover {
     color: var(--primaryHoverColor);
     background: var(--mainWhite);
+    box-shadow: 0px 5px 20px -5px rgba(0,0,0,0.5);
     border-color: var(--mainWhite);
 }
 

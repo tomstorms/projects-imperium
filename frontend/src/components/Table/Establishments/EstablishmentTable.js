@@ -3,7 +3,7 @@ import React from 'react';
 import '../Table.css';
 import './EstablishmentTable.css';
 
-const headers = ['Establishment Name'];
+const headers = ['Name'];
 
 const EstablishmentTable = props => (
     <React.Fragment>
