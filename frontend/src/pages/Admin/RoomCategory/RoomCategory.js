@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import AuthContext from '../../../context/auth-context';
 import Spinner from '../../../components/Spinner/Spinner';
 import Modal from '../../../components/Modal/Modal';
-import RoomCategoryList from '../../../components/RoomCategoryList/RoomCategoryList';
+
+import RoomCategoryTable from '../../../components/Table/RoomCategoryTable';
+import TileList from '../../../components/TileList/TileList';
+import TileBlock from '../../../components/Tiles/TileBlock/TileBlock';
+
+import './RoomCategory.css';
 
 class RoomCategoryPage extends Component {
     state = {
         isLoading: false,
         isEditing: false,
         isCreating: false,
+        estData: [],
         roomCategoryData: [],
         selectedRoomCategoryObj: null,
     };
@@ -20,17 +27,181 @@ class RoomCategoryPage extends Component {
         super(props);
         this.roomCategoryNameElRef = React.createRef();
         this.roomCategoryPriceElRef = React.createRef();
+        this.roomCategoryEstIdElRef = React.createRef();
     }
 
     componentDidMount() {
-        this.fetchData();
+        this.getEstablishments();
+        this.getRoomCategories();
     };
 
-    fetchData = () => {
+    getEstablishments = () => {
+        const requestBody = {
+            query: `
+                query {
+                    establishments {
+                        _id
+                        name
+                    }
+                }
+            `,
+        };
+
+        this.fetchData(requestBody, (resData, err) => {
+            if (resData.establishments) {
+                this.setState({estData: resData.establishments});
+            }
+        });
+    }
+
+    getRoomCategories = () => {
+        const requestBody = {
+            query: `
+                query {
+                    room_category {
+                        _id
+                        name
+                        price
+                        establishment {
+                            _id
+                            name
+                        }
+                    }
+                }
+            `,
+        };
+
+        this.fetchData(requestBody, (resData, err) => {
+            if (resData.room_category) {
+                this.setState({roomCategoryData: resData.room_category});
+            }
+        });
+    }
+
+    createEstablishment = (data) => {
+        const requestBody = {
+            query: `
+                mutation CreateRoomCategory($name: String!, $price: Float!, $estId: String!) {
+                    createRoomCategory(roomCategoryInput:{
+                        name: $name,
+                        price: $price,
+                        establishment_id: $estId
+                    }) {
+                        _id
+                        name
+                        price
+                        establishment {
+                            _id
+                            name
+                        }
+                    }
+                }
+            `,
+            variables: {
+                name: data.name,
+                price: +data.price,
+                estId: data.estId,
+            }
+        };
+
+        this.fetchData(requestBody, (resData, err) => {
+            if (resData.createRoomCategory) {
+                this.setState(prevState => {
+                    let roomCategoryData = [];
+                    if (prevState.roomCategoryData && prevState.roomCategoryData.length > 0) {
+                        roomCategoryData = [...prevState.roomCategoryData];
+                    }
+
+                    roomCategoryData.push({
+                        _id: resData.createRoomCategory._id,
+                        name: resData.createRoomCategory.name,
+                        price: resData.createRoomCategory.price,
+                        establishment: resData.createRoomCategory.establishment,
+                    });
+                    return { roomCategoryData: roomCategoryData, selectedRoomCategoryObj: null, isEditing: false, isCreating: false };
+                });
+
+            }
+        });
+    }
+
+    updateRoomCategory = (roomCategoryId, data) => {
+        const requestBody = {
+            query: `
+                mutation UpdateRoomCategory($id: ID!, $name: String, $price: Float, $estId: String) {
+                    updateRoomCategory(roomCategoryInput:{
+                        _id: $id,
+                        name: $name,
+                        price: $price,
+                        establishment_id: $estId
+                    }) {
+                        _id
+                        name
+                        price
+                        establishment {
+                            _id
+                            name
+                        }
+                    }
+                }
+            `,
+            variables: {
+                id: roomCategoryId,
+                name: data.name,
+                price: +data.price,
+                estId: data.estId,
+            }
+        };
+
+        this.fetchData(requestBody, (resData, err) => {
+            if (resData.updateRoomCategory) {
+                this.setState(prevState => {
+                    const updatedRoomCategoryData = prevState.roomCategoryData.map(el => el._id === resData.updateRoomCategory._id ? { 
+                        ...el, 
+                        name: resData.updateRoomCategory.name,
+                        price: resData.updateRoomCategory.price,
+                        name: resData.updateRoomCategory.name,
+                        establishment: resData.updateRoomCategory.establishment,
+                    }: el);
+                    return { roomCategoryData: updatedRoomCategoryData };
+                });
+                this.setState({selectedRoomCategoryObj: null, isEditing: false });
+            }
+        });
+    }
+
+    deleteEstablishment = (roomCategoryId) => {
+        const requestBody = {
+            query: `
+                mutation DeleteRoomCategory($id: ID!) {
+                    deleteRoomCategory(roomCategoryInput:{
+                        _id: $id,
+                    })
+                }
+            `,
+            variables: {
+                id: roomCategoryId,
+            }
+        };
+
+        this.fetchData(requestBody, (resData, err) => {
+            if (resData.deleteRoomCategory) {
+                this.setState(prevState => {
+                    const roomCategoryData = prevState.roomCategoryData.filter(roomCategoryItem => {
+                        return roomCategoryItem._id !== roomCategoryId;
+                    });
+                    return { roomCategoryData: roomCategoryData, selectedRoomCategoryObj: null, isEditing: false };
+                });
+            }
+        });
+    }
+
+    fetchData = (requestBody, callback) => {
         this.setState({isLoading: true});
 
-        fetch(`http://${process.env.REACT_APP_API_SERVER}/room-category`, {
-            method: 'GET',
+        fetch(`${process.env.REACT_APP_API_SERVER}/graphql`, {
+            method: 'POST',
+            body: JSON.stringify(requestBody),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + this.context.token,
@@ -41,134 +212,67 @@ class RoomCategoryPage extends Component {
             }
             return res.json();
         }).then(resData => {
-            this.setState({roomCategoryData: resData.data, isLoading: false});
-        }).catch(err => {
-            console.log(err);
-            this.setState({isLoading: false});
-        });
-    };
+            if (resData.errors) {
+                throw new Error(resData.errors[0].message);
+            }
 
-    deleteHandler = roomCategoryID => {
-        var confirmModal = window.confirm("Are you sure you want to delete this item?");
-        if (confirmModal === true) {
-            fetch(`http://${process.env.REACT_APP_API_SERVER}/room-category/${roomCategoryID}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.context.token,
-                }
-            }).then(res => {
-                if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Failed!');
-                }
-                return res.json();
-            }).then(resData => {
-                this.setState(prevState => {
-                    const updatedRoomCategoryData = prevState.roomCategoryData.filter(roomCategoryItem => {
-                        return roomCategoryItem._id !== roomCategoryID;
-                    });
-                    return { roomCategoryData: updatedRoomCategoryData, selectedRoomCategoryObj: null, isEditing: false };
-                });
-
-            }).catch(err => {
-                console.log(err);
+            if (resData.data) {
                 this.setState({isLoading: false});
-            });
-        }
+                callback(resData.data);
+            }
+            else {
+                throw new Error('Unable to load data');
+            }
+            
+        }).catch(err => {
+            this.setState({isLoading: false});
+            return;
+        });
     };
 
     createHandler = () => {
         this.setState({selectedRoomCategoryObj: null, isCreating: true});
     }
 
-    editHandler = roomCategoryID => {
+    editHandler = estId => {
         this.setState(prevState => {
-            const selectedRoomCategory = prevState.roomCategoryData.find(e => e._id === roomCategoryID);
-            console.log(selectedRoomCategory);
-            return {selectedRoomCategoryObj: selectedRoomCategory, isEditing: true};
+            const selectedEst = prevState.roomCategoryData.find(e => e._id === estId);
+            return { selectedRoomCategoryObj: selectedEst, isEditing: true};
         });
     }
 
+    deleteHandler = estId => {
+        var confirmModal = window.confirm("Are you sure you want to delete this item?");
+        if (confirmModal === true) {
+            this.deleteEstablishment(estId);
+        }
+    };
+
     modalConfirmHandler = () => {
         const name = this.roomCategoryNameElRef.current.value;
-        const price = +this.roomCategoryPriceElRef.current.value;
+        const price = this.roomCategoryPriceElRef.current.value;
+        const estId = this.roomCategoryEstIdElRef.current.value;
 
-        if (name.trim().length === 0 || price <= 0) {
+        if (name.trim().length === 0) {
             return;
         }
 
         if (this.state.isCreating) {
             const requestBody = {
                 name: name,
-                price: price
+                price: price,
+                estId: estId,
             };
-
-            fetch(`http://${process.env.REACT_APP_API_SERVER}/room-category/`, {
-                method: 'POST',
-                body: JSON.stringify(requestBody),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.context.token,
-                }
-            }).then(res => {
-                if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Failed!');
-                }
-                return res.json();
-            }).then(resData => {
-                this.setState(prevState => {
-                    let updatedRoomCategoryData = [];
-                    if (prevState.roomCategoryData && prevState.roomCategoryData.length > 0) {
-                        updatedRoomCategoryData = [...prevState.roomCategoryData];
-                    }
-
-                    updatedRoomCategoryData.push({
-                        _id: resData.createdRoomCategory._id,
-                        name: resData.createdRoomCategory.name,
-                        price: resData.createdRoomCategory.price,
-                    });
-                    return { roomCategoryData: updatedRoomCategoryData, selectedRoomCategoryObj: null, isEditing: false, isCreating: false };
-                });
-            }).catch(err => {
-                console.log(err);
-                this.setState({isLoading: false});
-            });
-
+            this.createEstablishment(requestBody);
         }
         else if (this.state.isEditing) {
             const roomCategoryID = this.state.selectedRoomCategoryObj._id;
-
             const requestBody = {
-                _id: roomCategoryID,
                 name: name,
-                price: price
+                price: price,
+                estId: estId,
             };
-
-            fetch(`http://${process.env.REACT_APP_API_SERVER}/room-category/${roomCategoryID}`, {
-                method: 'PATCH',
-                body: JSON.stringify(requestBody),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.context.token,
-                }
-            }).then(res => {
-                if (res.status !== 200 && res.status !== 201) {
-                    throw new Error('Failed!');
-                }
-                return res.json();
-            }).then(resData => {
-                this.setState(prevState => {
-                    const updatedRoomCategoryData = prevState.roomCategoryData.map(el => el._id === resData.updatedRoomCategory._id ? { 
-                        ...el, 
-                        name: resData.updatedRoomCategory.name,
-                        price: resData.updatedRoomCategory.price,
-                    }: el);
-                    return { roomCategoryData: updatedRoomCategoryData, selectedRoomCategoryObj: null, isEditing: false };
-                });
-            }).catch(err => {
-                console.log(err);
-                this.setState({isLoading: false});
-            });
+            this.updateRoomCategory(roomCategoryID, requestBody);
         }
     }
 
@@ -181,41 +285,65 @@ class RoomCategoryPage extends Component {
         if (!this.state.isLoading) {
             content = (
                 <React.Fragment>
-                    <RoomCategoryList 
-                        data={this.state.roomCategoryData} 
-                        onDelete={this.deleteHandler}
-                        onEdit={this.editHandler}
-                    />
+                    <TileList col="1">
+                        <TileBlock heading="All Room Categories" tileClass="tile-roomcategory">
+                            <button className="btn btn-primary btn--new" onClick={this.createHandler}>Create New</button>
+                            <RoomCategoryTable 
+                                data={this.state.roomCategoryData}
+                                onDelete={this.deleteHandler}
+                                onEdit={this.editHandler}
+                                onCreate={this.createHandler}
+                            />
+                        </TileBlock>
+                    </TileList>
 
                     { 
                         (this.state.isEditing && this.state.selectedRoomCategoryObj) &&
                         <Modal title="Edit Room Category" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
                             <form>
                                 <div className="form-control">
-                                    <label htmlFor="roomCategoryName">Room Category Name:</label>
-                                    <input type="text" id="roomCategoryName" ref={this.roomCategoryNameElRef} defaultValue={this.state.selectedRoomCategoryObj.name}></input>
+                                    <label htmlFor="roomCategroyName">Room Category Name:</label>
+                                    <input type="text" id="roomCategroyName" ref={this.roomCategoryNameElRef} defaultValue={this.state.selectedRoomCategoryObj.name}></input>
                                 </div>
                                 <div className="form-control">
-                                    <label htmlFor="roomCategoryPrice">Price</label>
+                                    <label htmlFor="roomCategoryPrice">Price:</label>
                                     <input type="number" id="roomCategoryPrice" ref={this.roomCategoryPriceElRef} defaultValue={this.state.selectedRoomCategoryObj.price}></input>
+                                </div>
+                                <div className="form-control">
+                                    <label htmlFor="roomCategoryEstId">Establishment:</label>
+                                    <select ref={this.roomCategoryEstIdElRef} defaultValue={this.state.selectedRoomCategoryObj.establishment._id}>
+                                        { this.state.estData.map((estData,index) => {
+                                            return (
+                                                <option key={index} value={estData._id}>{estData.name}</option>
+                                            )
+                                        })}
+                                    </select>
                                 </div>
                             </form>
                         </Modal>
                     } 
 
-                    <button className="btn" onClick={this.createHandler}>Create New</button>
-
                     { 
                         (this.state.isCreating) &&
-                        <Modal title="Add a new Room Category" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
+                        <Modal title="Add a new Establishment" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
                             <form>
                                 <div className="form-control">
-                                    <label htmlFor="roomCategoryName">Room Category Name:</label>
-                                    <input type="text" id="roomCategoryName" ref={this.roomCategoryNameElRef}></input>
+                                    <label htmlFor="roomCategroyName">Room Category Name:</label>
+                                    <input type="text" id="roomCategroyName" ref={this.roomCategoryNameElRef}></input>
                                 </div>
                                 <div className="form-control">
-                                    <label htmlFor="roomCategoryPrice">Price</label>
+                                    <label htmlFor="roomCategoryPrice">Price:</label>
                                     <input type="number" id="roomCategoryPrice" ref={this.roomCategoryPriceElRef}></input>
+                                </div>
+                                <div className="form-control">
+                                    <label htmlFor="roomCategoryEstId">Establishment:</label>
+                                    <select ref={this.roomCategoryEstIdElRef}>
+                                        { this.state.estData.map((estData,index) => {
+                                            return (
+                                                <option key={index} value={estData._id}>{estData.name}</option>
+                                            )
+                                        })}
+                                    </select>
                                 </div>
                             </form>
                         </Modal>
@@ -226,7 +354,15 @@ class RoomCategoryPage extends Component {
 
         return (
             <React.Fragment>
-                {content}
+                <div className="page page--dashboard">
+                    <section className="section section--heading">
+                        <h1 className="page-title">Room Category</h1>
+                    </section>
+                    {content}
+                    <section className="section section--footer">
+                        <NavLink to="/admin">Back to Settings</NavLink>    
+                    </section>
+                </div>
             </React.Fragment>
         );
     };

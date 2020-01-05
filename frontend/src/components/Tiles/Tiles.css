@@ -57,3 +57,9 @@ section.section--tiles .tile .tile-body {
 section.section--tiles .tile .tile-header + .tile-body {
     padding-top: 0 !important;
 }
+
+section.section--tiles .tile .btn--new {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
