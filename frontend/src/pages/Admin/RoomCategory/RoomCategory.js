@@ -78,7 +78,7 @@ class RoomCategoryPage extends Component {
         });
     }
 
-    createEstablishment = (data) => {
+    createRoomCategory = (data) => {
         const requestBody = {
             query: `
                 mutation CreateRoomCategory($name: String!, $price: Float!, $estId: String!) {
@@ -160,7 +160,6 @@ class RoomCategoryPage extends Component {
                         ...el, 
                         name: resData.updateRoomCategory.name,
                         price: resData.updateRoomCategory.price,
-                        name: resData.updateRoomCategory.name,
                         establishment: resData.updateRoomCategory.establishment,
                     }: el);
                     return { roomCategoryData: updatedRoomCategoryData };
@@ -170,7 +169,7 @@ class RoomCategoryPage extends Component {
         });
     }
 
-    deleteEstablishment = (roomCategoryId) => {
+    deleteRoomCategory = (roomCategoryId) => {
         const requestBody = {
             query: `
                 mutation DeleteRoomCategory($id: ID!) {
@@ -236,15 +235,15 @@ class RoomCategoryPage extends Component {
 
     editHandler = estId => {
         this.setState(prevState => {
-            const selectedEst = prevState.roomCategoryData.find(e => e._id === estId);
-            return { selectedRoomCategoryObj: selectedEst, isEditing: true};
+            const selected = prevState.roomCategoryData.find(e => e._id === estId);
+            return { selectedRoomCategoryObj: selected, isEditing: true};
         });
     }
 
     deleteHandler = estId => {
         var confirmModal = window.confirm("Are you sure you want to delete this item?");
         if (confirmModal === true) {
-            this.deleteEstablishment(estId);
+            this.deleteRoomCategory(estId);
         }
     };
 
@@ -263,16 +262,16 @@ class RoomCategoryPage extends Component {
                 price: price,
                 estId: estId,
             };
-            this.createEstablishment(requestBody);
+            this.createRoomCategory(requestBody);
         }
         else if (this.state.isEditing) {
-            const roomCategoryID = this.state.selectedRoomCategoryObj._id;
+            const roomCategoryId = this.state.selectedRoomCategoryObj._id;
             const requestBody = {
                 name: name,
                 price: price,
                 estId: estId,
             };
-            this.updateRoomCategory(roomCategoryID, requestBody);
+            this.updateRoomCategory(roomCategoryId, requestBody);
         }
     }
 
@@ -302,8 +301,8 @@ class RoomCategoryPage extends Component {
                         <Modal title="Edit Room Category" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
                             <form>
                                 <div className="form-control">
-                                    <label htmlFor="roomCategroyName">Room Category Name:</label>
-                                    <input type="text" id="roomCategroyName" ref={this.roomCategoryNameElRef} defaultValue={this.state.selectedRoomCategoryObj.name}></input>
+                                    <label htmlFor="roomCategoryName">Room Category Name:</label>
+                                    <input type="text" id="roomCategoryName" ref={this.roomCategoryNameElRef} defaultValue={this.state.selectedRoomCategoryObj.name}></input>
                                 </div>
                                 <div className="form-control">
                                     <label htmlFor="roomCategoryPrice">Price:</label>
@@ -325,11 +324,11 @@ class RoomCategoryPage extends Component {
 
                     { 
                         (this.state.isCreating) &&
-                        <Modal title="Add a new Establishment" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
+                        <Modal title="Add a new Room Category" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Confirm">
                             <form>
                                 <div className="form-control">
-                                    <label htmlFor="roomCategroyName">Room Category Name:</label>
-                                    <input type="text" id="roomCategroyName" ref={this.roomCategoryNameElRef}></input>
+                                    <label htmlFor="roomCategoryName">Room Category Name:</label>
+                                    <input type="text" id="roomCategoryName" ref={this.roomCategoryNameElRef}></input>
                                 </div>
                                 <div className="form-control">
                                     <label htmlFor="roomCategoryPrice">Price:</label>
@@ -356,7 +355,7 @@ class RoomCategoryPage extends Component {
             <React.Fragment>
                 <div className="page page--dashboard">
                     <section className="section section--heading">
-                        <h1 className="page-title">Room Category</h1>
+                        <h1 className="page-title">Room Categories</h1>
                     </section>
                     {content}
                     <section className="section section--footer">

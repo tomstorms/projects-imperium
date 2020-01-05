@@ -186,8 +186,8 @@ class EstablishmentsPage extends Component {
 
     editHandler = estId => {
         this.setState(prevState => {
-            const selectedEst = prevState.estData.find(e => e._id === estId);
-            return { selectedEstObj: selectedEst, isEditing: true};
+            const selected = prevState.estData.find(e => e._id === estId);
+            return { selectedEstObj: selected, isEditing: true};
         });
     }
 
