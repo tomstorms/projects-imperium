@@ -12,8 +12,11 @@ import LoginRegisterPage from './pages/Login/LoginRegister';
 import DashboardPage from './pages/Dashboard/Dashboard';
 import LogoutPage from './pages/Login/Logout';
 import ErrorPage from './pages/Error/Error';
-import RoomsPage from './pages/Rooms/Rooms';
-import RoomCategoryPage from './pages/RoomCategory/RoomCategory';
+
+import AdminPage from './pages/Admin/Admin';
+import EstablishmentsPage from './pages/Admin/Establishments/Establishments';
+import RoomCategoryPage from './pages/Admin/RoomCategory/RoomCategory';
+import RoomsPage from './pages/Admin/Rooms/Rooms';
 
 import './App.css';
 
@@ -131,8 +134,11 @@ class App extends Component {
                     {isLoggedIn && <Redirect from="/login" to="/dashboard" exact /> }
                     {isLoggedIn && <Route path="/dashboard" component={DashboardPage} exact /> }
                     {isLoggedIn && <Route path="/logout" component={LogoutPage} exact /> }
-                    {isLoggedIn && <Route path="/rooms" component={RoomsPage} exact /> }
-                    {isLoggedIn && <Route path="/room-category" component={RoomCategoryPage} exact /> }
+                    
+                    {isLoggedIn && <Route path="/admin" component={AdminPage} exact /> }
+                    {isLoggedIn && <Route path="/admin/establishments" component={EstablishmentsPage} exact /> }
+                    {isLoggedIn && <Route path="/admin/rooms" component={RoomsPage} exact /> }
+                    {isLoggedIn && <Route path="/admin/room-category" component={RoomCategoryPage} exact /> }
                     
                     {!isLoggedIn && <Redirect from="/dashboard" to="/login" exact /> }
                     {!isLoggedIn && <Redirect from="/rooms" to="/login" exact /> }

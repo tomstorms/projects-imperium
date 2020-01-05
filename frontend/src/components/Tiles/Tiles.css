@@ -1,6 +1,11 @@
 section.section--tiles {
     display: grid;
-    grid: 200px / 49% 49%;
+    grid: auto / 49% 49%;
+    grid-gap: 20px;
+}
+section.section--tiles--thirds {
+    display: grid;
+    grid: auto / 32% 32% 32%;
     grid-gap: 20px;
 }
 
@@ -35,4 +40,10 @@ section.section--tiles .tile .tile-heading {
     margin-top: 0;
     color: #50649c;
     text-shadow: 0 0 1px rgba(239,242,249,.1);
+}
+section.section--tiles .tile .tile-description {
+    line-height: 1.6;
+    font-size: 13px;
+    opacity: 0.6;
+    margin-bottom: 8px;
 }

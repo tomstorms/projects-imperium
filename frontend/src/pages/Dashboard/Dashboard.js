@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import PlaceholderTile from '../../components/Tiles/PlaceholderTile/PlaceholderTile';
-import ReservationOverviewTile from '../../components/Tiles/ReservationTile/ReservationTile';
+import ReservationOverviewTile from '../../components/Tiles/ReservationOverviewTile/ReservationOverviewTile'
+import TileBlock from '../../components/Tiles/TileBlock/TileBlock';
 
 import './Dashboard.css';
 import '../../components/Tiles/Tiles.css';
@@ -15,7 +15,12 @@ export default class Dashboard extends Component {
                 </section>
                 <section className="section section--tiles">
                     <ReservationOverviewTile></ReservationOverviewTile>
-                    <PlaceholderTile></PlaceholderTile>
+                    <TileBlock heading="Tile 2" description="This is a description for etile 2">
+                        <p>Hello World from Tile 2</p>
+                    </TileBlock>
+                    <TileBlock heading="Tile 3" description="This is a description for etile 3">
+                        <p>Hello World from Tile 3</p>
+                    </TileBlock>
                 </section>
             </div>
         )

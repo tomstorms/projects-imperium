@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import AuthContext from '../../context/auth-context';
-import Spinner from '../../components/Spinner/Spinner';
-import Modal from '../../components/Modal/Modal';
-import RoomCategoryList from '../../components/RoomCategoryList/RoomCategoryList';
+import AuthContext from '../../../context/auth-context';
+import Spinner from '../../../components/Spinner/Spinner';
+import Modal from '../../../components/Modal/Modal';
+import RoomCategoryList from '../../../components/RoomCategoryList/RoomCategoryList';
 
 class RoomCategoryPage extends Component {
     state = {

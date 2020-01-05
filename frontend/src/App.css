@@ -116,7 +116,8 @@ a:hover {
     text-decoration: none;
 }
 .btn:hover {
-    color: var(--mainWhite);
+    color: var(--primaryHoverColor);
+    border-color: var(--primaryHoverColor);
 }
 .btn:focus,
 .btn:active {
@@ -130,6 +131,7 @@ a:hover {
 .btn-primary:hover {
     background: var(--primaryHoverColor);
     border: 3px solid var(--primaryHoverColor);
+    color: var(--mainWhite);
 }
 .btn-rounded {
     border-radius: 30px;
