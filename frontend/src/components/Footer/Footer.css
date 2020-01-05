@@ -1,5 +1,5 @@
 footer {
-    /* background: #F9F9F9; */
+    background: var(--offWhite);
     min-height: 70px;
     display: flex;
     align-items: center;

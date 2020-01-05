@@ -45,6 +45,11 @@ export default class LoginRegister extends Component {
             return;
         }
 
+        this.doUserRegister(email, password);
+        console.log('exit submitHandler');
+    };
+
+    doUserRegister = (email, password) => {
         const requestBody = {
             query: `
                 mutation CreateUser($email: String!, $password: String!) {
@@ -76,11 +81,11 @@ export default class LoginRegister extends Component {
                 throw new Error(resData.errors[0].message);
             }
             if (resData.data.createUser) {
-                this.showErrorMessage('Your account has been created. Redirecting you to the login page...', 'success');
+                this.showErrorMessage('Your account has been created. Logging you in...', 'success');
 
-                setTimeout(function(){
-                    window.location.href = '/login';
-                }, 2000);
+                this.doUserLogin(email, password);
+                console.log('exit doUserRegister');
+
             }
             else {
                 throw new Error('Failed to create account');
@@ -89,11 +94,67 @@ export default class LoginRegister extends Component {
             this.showErrorMessage(err.message);
             return;
         });
-    };
+    }
+
+    doUserLogin = (email, password) => {
+        const requestBody = {
+            query: `
+                query Login($email: String!, $password: String!) {
+                    login(email: $email, password: $password) {
+                        userId
+                        token
+                        tokenExpiration
+                        userRole
+                    }
+                }
+            `,
+            variables: {
+                email: email,
+                password: password,
+            }
+        };
+
+        fetch(`${process.env.REACT_APP_API_SERVER}/graphql`, {
+            method: 'POST',
+            body: JSON.stringify(requestBody),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Failed!');
+            }
+            return res.json();
+        }).then(resData => {
+            if (resData.errors) {
+                throw new Error(resData.errors[0].message);
+            }
+
+            if (resData.data.login.token) {
+                console.log('exit doUserLogin');
+
+                this.context.login(
+                    resData.data.login.token,
+                    resData.data.login.tokenExpiration,
+                    resData.data.login.userId,
+                    resData.data.login.userRole,
+                    resData.data.login.userProfile,
+                );
+
+                window.location.href = '/dashboard';
+            }
+            else {
+                throw new Error('Failed to get token');
+            }
+        }).catch(err => {
+            this.showErrorMessage(err.message);
+            return;
+        });
+    }
 
     render() {
         return (
-            <div class="page page--login page--login-register">
+            <div className="page page--login page--login-register">
                 <section className="form">
                     <div className="pane--left">
                         <h1>Let's Get Started.</h1>

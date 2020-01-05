@@ -82,7 +82,13 @@ export default class Login extends Component {
             if (resData.data.login.token) {
                 this.showErrorMessage('Logging you in...', 'success');
 
-                this.context.login(resData.data.login.token, resData.data.login.tokenExpiration, resData.data.login.userId, resData.data.login.userRole);
+                this.context.login(
+                    resData.data.login.token,
+                    resData.data.login.tokenExpiration,
+                    resData.data.login.userId,
+                    resData.data.login.userRole,
+                    resData.data.login.userProfile,
+                );
                 window.location.href = '/dashboard';
             }
             else {
@@ -96,7 +102,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div class="page page--login page--login-home">
+            <div className="page page--login page--login-home">
                 <section className="form">
                     <div className="pane--left">
                         <h1>Welcome Back!</h1>

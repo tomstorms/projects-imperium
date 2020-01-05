@@ -23,16 +23,29 @@ class App extends Component {
         tokenExpiration: null,
         userId: null,
         userRole: null,
+        userProfile: null,
     }
     
-    login = (token, tokenExpiration, userId, userRole) => {
+    login = (token, tokenExpiration, userId, userRole, userProfile) => {
         localStorage.setItem('token', token);
-        this.setState({ token: token, tokenExpiration: tokenExpiration, userId: userId, userRole: userRole });
+        this.setState({ 
+            token: token,
+            tokenExpiration: tokenExpiration,
+            userId: userId,
+            userRole: userRole,
+            userProfile: userProfile,
+        });
     }
     
     logout = () => {
         localStorage.removeItem('token');
-        this.setState({ token: null, tokenExpiration: null, userId: null, userRole: null });
+        this.setState({
+            token: null,
+            tokenExpiration: null,
+            userId: null,
+            userRole: null,
+            userProfile: null,
+        });
     }
     
     render() {
@@ -43,26 +56,28 @@ class App extends Component {
                 login: this.login,
                 logout: this.logout
             }}>
-            <Header></Header>
-            <main className="page-wrapper">
-            <Switch>
-            {this.state.token && <Redirect from="/" to="/dashboard" exact /> }
-            {this.state.token && <Redirect from="/login" to="/dashboard" exact /> }
-            {this.state.token && <Route path="/dashboard" component={DashboardPage} exact /> }
-            {this.state.token && <Route path="/logout" component={LogoutPage} exact /> }
-            {this.state.token && <Route path="/rooms" component={RoomsPage} exact /> }
-            {this.state.token && <Route path="/room-category" component={RoomCategoryPage} exact /> }
-            
-            {!this.state.token && <Redirect from="/dashboard" to="/login" exact /> }
-            {!this.state.token && <Redirect from="/rooms" to="/login" exact /> }
-            {!this.state.token && <Route path="/" component={HomePage} exact /> }
-            {!this.state.token && <Route path="/login" component={LoginPage} exact /> }
-            {!this.state.token && <Route path="/register" component={LoginRegisterPage} exact /> }
-            
-            <Route path="/404" component={ErrorPage}/>
-            </Switch>
-            </main>
-            <Footer></Footer>
+            <div className={`page-wrapper ${this.state.token ? 'loggedin' : ''}`}>
+                <Header></Header>
+                <main>
+                <Switch>
+                    {this.state.token && <Redirect from="/" to="/dashboard" exact /> }
+                    {this.state.token && <Redirect from="/login" to="/dashboard" exact /> }
+                    {this.state.token && <Route path="/dashboard" component={DashboardPage} exact /> }
+                    {this.state.token && <Route path="/logout" component={LogoutPage} exact /> }
+                    {this.state.token && <Route path="/rooms" component={RoomsPage} exact /> }
+                    {this.state.token && <Route path="/room-category" component={RoomCategoryPage} exact /> }
+                    
+                    {!this.state.token && <Redirect from="/dashboard" to="/login" exact /> }
+                    {!this.state.token && <Redirect from="/rooms" to="/login" exact /> }
+                    {!this.state.token && <Route path="/" component={HomePage} exact /> }
+                    {!this.state.token && <Route path="/login" component={LoginPage} exact /> }
+                    {!this.state.token && <Route path="/register" component={LoginRegisterPage} exact /> }
+                    
+                    <Route path="/404" component={ErrorPage}/>
+                </Switch>
+                </main>
+                <Footer></Footer>
+            </div>
             </AuthContext.Provider>
             </BrowserRouter>
         );

@@ -3,7 +3,8 @@
     --primaryColor: #4d79f6;
     --primaryHoverColor: #3567f5;
     --mainWhite: #fff;
-    --offWhite: #F9F9F9;
+    --offWhite: #F8F9FA;
+    --mainBackground: #eaf0f7;
     --mainBlack: #222;
     --mainGrey: #ececec;
     --darkGrey: #cfcfcf;
@@ -19,11 +20,13 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+html {
+    background: var(--offWhite);
+}
 body {
     color: var(--mainBlack);
     background: var(--offWhite);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Poppins', Verdana, Geneva, Tahoma, sans-serif;
     margin-top: 70px;
     -webkit-font-smoothing: antialiased;
     font-size: 1em;
@@ -35,7 +38,7 @@ h1 {
     font-size: 3em;
     line-height: 1;
     margin-bottom: 0.5em;
-    letter-spacing: -4px;
+    letter-spacing: -2px;
 }
 
 h2 {
@@ -195,9 +198,9 @@ img {
 
 /* Page Styles */
 .page-wrapper {
-    background: #eaf0f7;
-    min-height: 50vh;
+    background: var(--mainBackground);
 }
+
 section, .section {
     width: 90%;
     max-width: 80%;
@@ -206,6 +209,14 @@ section, .section {
     flex-direction: row;
     justify-content: space-between;
 }
+
+.page-wrapper.loggedin section,
+.page-wrapper.loggedin .section {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 1rem;
+}
+
 section .pane--left,
 .section .pane--left {
     align-items: flex-start;
@@ -222,4 +233,18 @@ section .pane--right,
     flex-direction: column;
     justify-content: center;
     width: 50%;
+}
+
+section.section--heading {
+    padding: 1.5rem 1rem !important;
+}
+
+/* Logged In Styles */
+
+.page-title {
+    font-size: 18px;
+    margin: 0;
+    color: #50649c;
+    letter-spacing: 0px;
+    font-weight: 500;
 }

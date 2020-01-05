@@ -1,3 +1,7 @@
+.page--dashboard {
+    min-height: 50vh;
+}
+
 .page--dashboard .description {
     margin-bottom: 1rem;
 }
