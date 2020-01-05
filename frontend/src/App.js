@@ -122,10 +122,10 @@ class App extends Component {
             }}>
             <div className={`page-wrapper ${isLoggedIn ? 'loggedin' : ''}`}>
                 <header>
-                    <div className="section section--navbar">
+                    <section className="section section--navbar">
                         {!isLoggedIn && <Navbar></Navbar> }
                         {isLoggedIn && <NavbarLoggedIn userRole={this.state.userRole} estData={this.state.estData} onEstablishmentChange={this.onEstablishmentChangeHandler}></NavbarLoggedIn> }
-                    </div>
+                    </section>
                 </header>
 
                 <main>
@@ -152,9 +152,9 @@ class App extends Component {
                 </main>
                 
                 <footer>
-                    <div className="section section--footer">
+                    <section className="section section--footer">
                         &copy; 2020 - Imperium
-                    </div>
+                    </section>
                 </footer>
             </div>
             </AuthContext.Provider>

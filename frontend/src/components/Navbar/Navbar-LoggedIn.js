@@ -27,8 +27,6 @@ export default class NavbarLoggedIn extends Component {
                 <div className="right-menu">
                     <nav className="navbar__items">
                         <ul>
-                            <li><NavLink to="/rooms">Rooms</NavLink></li>
-                            <li><NavLink to="/room-category">Room Categories</NavLink></li>
                             <li><NavLink to="/logout">Logout</NavLink></li>
                         </ul>
                     </nav>

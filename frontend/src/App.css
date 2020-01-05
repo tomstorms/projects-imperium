@@ -246,7 +246,7 @@ main {
     background: var(--mainBackground);
 }
 
-section, .section {
+section {
     width: 90%;
     max-width: 80%;
     margin: 0 auto;
@@ -255,15 +255,13 @@ section, .section {
     justify-content: space-between;
 }
 
-.page-wrapper.loggedin section,
-.page-wrapper.loggedin .section {
+.page-wrapper.loggedin section {
     width: 100%;
     max-width: 100%;
     padding: 0 1rem;
 }
 
-section .pane--left,
-.section .pane--left {
+section .pane--left {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
@@ -271,8 +269,7 @@ section .pane--left,
     width: 50%;
     margin-right: 50px;
 }
-section .pane--right,
-.section .pane--right {
+section .pane--right {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
@@ -286,6 +283,11 @@ section.section--heading {
 }
 
 section.section--heading .description {
+    font-size: 0.8em;
+}
+
+section.section--footer {
+    padding: 1.5rem 1rem !important;
     font-size: 0.8em;
 }
 

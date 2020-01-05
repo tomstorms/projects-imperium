@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import AuthContext from '../../../context/auth-context';
 import Spinner from '../../../components/Spinner/Spinner';
@@ -274,6 +275,9 @@ class EstablishmentsPage extends Component {
                         <h1 className="page-title">Establishments</h1>
                     </section>
                     {content}
+                    <section className="section section--footer">
+                        <NavLink to="/admin">Back to Settings</NavLink>    
+                    </section>
                 </div>
             </React.Fragment>
         );
