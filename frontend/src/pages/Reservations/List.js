@@ -7,7 +7,8 @@ export default class ReservationsList extends Component {
         return (
             <div className="page page--reservations page--reservations--list">
                 <section className="section section--heading">
-                    <h1 className="page-title">Reservations Dashboard</h1>
+                    <h1 className="page-title">Reservations</h1>
+                    <p className="description">On this page you would list out all reservations.</p>
                 </section>
             </div>
         )

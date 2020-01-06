@@ -7,7 +7,8 @@ export default class DeliveriesList extends Component {
         return (
             <div className="page page--deliveries page--deliveries--list">
                 <section className="section section--heading">
-                    <h1 className="page-title">Deliveries Dashboards</h1>
+                    <h1 className="page-title">Deliveries</h1>
+                    <p className="description">On this page you would list out all logistical packages and shipments.</p>
                 </section>
             </div>
         )

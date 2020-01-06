@@ -6,3 +6,22 @@
 .tile-link .btn {
     font-size: 12px !important;
 }
+
+.tile-link .tile-header--icon {
+    display: flex;
+    align-items: flex-start;
+}
+
+.tile-link .tile-header--icon img {
+    width: 30px;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.tile-link .tile-header--icon .icon-container {
+    width: 25%;
+}
+
+.tile-link .tile-header--icon .text-container {
+    width: 100%;
+}

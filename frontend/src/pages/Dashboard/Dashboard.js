@@ -7,12 +7,14 @@ import ReservationOverviewTile from '../../components/Tiles/ReservationOverviewT
 import './Dashboard.css';
 import '../../components/Tiles/Tiles.css';
 
+import DashboardPlaceholder from '../../images/Placeholder/Dashboard.png';
 export default class Dashboard extends Component {
     render() {
         return (
             <div className="page page--dashboard">
                 <section className="section section--heading">
                     <h1 className="page-title">Dashboard</h1>
+                    <p className="description">These blocks are React components that could serve as it's own 'widget'.</p>
                 </section>
                 <TileList>
                     <ReservationOverviewTile></ReservationOverviewTile>
@@ -23,6 +25,13 @@ export default class Dashboard extends Component {
                         <p>Hello World from Tile 3</p>
                     </TileBlock>
                 </TileList>
+                <section className="section section--heading">
+                    <h1 className="page-title">Dashboard Prototype</h1>
+                    <p className="description">Below is a placeholder screenshot demonstrating potential functionality for this page.</p>
+                </section>
+                <section className="section">
+                    <img src={DashboardPlaceholder} />
+                </section>
             </div>
         )
     }

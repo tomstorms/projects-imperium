@@ -1,0 +1,393 @@
+https://codepen.io/JFarrow/pen/fFrpg
+
+https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+
+
+
+- Create/Update/Delete Users
+- Reservations
+-- Items
+--- Type
+---- Room
+----- Room Category
+--- Name
+--- Price
+- Transfers
+- Email
+- Deliveries
+
+Items
+- Name
+- Price
+
+
+
+
+
+https://stackoverflow.com/questions/45043799/database-schema-for-product-prices-which-can-change-daily
+
+
+
+Product:
+- ProductID
+- ProductName : Standard Room, Duma to Siquijor
+- ProductType : Room, Transfer etc.
+- ProductStartDate : dd/mm/yyy
+- ProductEndDate : dd/mm/yyy
+
+Varient:
+- VariantID
+- ProductID
+- VariantName
+- NormalPriceID
+- HighPriceID
+- PeakPriceID
+
+Price:
+- Price ID
+- Mon
+- Tue
+- Wed
+- Thu
+- Fri
+- Sat
+- Sun
+
+http://www.databaseanswers.org/data_models/hotels/index.htm
+
+Establishment
+- EstID
+- Est Name
+
+Room Category
+- RoomCategoryID
+- EstID
+- Name
+
+Room
+- RoomID
+- Room Name
+
+
+Product:
+- ProductID
+- ProductName : Standard Room, Duma to Siquijor
+- ProductType : Room, Transfer etc.
+- ProductStartDate : dd/mm/yyy
+- ProductEndDate : dd/mm/yyy
+
+Varient:
+- VariantID
+- ProductID
+- VariantName
+- NormalPriceID
+- HighPriceID
+- PeakPriceID
+
+Price:
+- Price ID
+- Mon
+- Tue
+- Wed
+- Thu
+- Fri
+- Sat
+- Sun
+
+Establishment
+- Room Category
+-- Room
+
+===================================
+
+Establishment:
+- Name
+
+ESTABLISHMENT_ID, ESTABLISHMENT
+1, Coco Grove Beach Resort
+2, Apo Island Beach Resort
+
+--
+
+Item Pricing Unit
+- Name
+
+PRICE_UNIT_ID, NAME
+1, per person
+2, per room
+
+--
+
+Item Price
+- Name
+- Published Rate
+- Peak Rate Rate
+- Senior Discount Rate
+
+PRICE_ID, NAME, PUBLISHED_RATE, PEAK_RATE, SENIOR_DISCOUNT_RATE, 
+1, Standard Room, 4000, 4100, 3900
+2, Deluxe Room, 5200, 5300, 5100
+3, One Way, 500, 510, 490
+3, Return Way, 1000, 1100, 900
+
+--
+
+Item:
+- Name
+- Item Type
+
+PRODUCT_ID, NAME, TYPE
+1, Standard Room, Room
+2, Duma to Siquijor, Transfer
+3, Breakfast for 1, RoomAddition
+
+--
+
+Item Meta:
+- Item ID
+- Key (room_no)
+- Value
+
+ITEM_META_ID, ITEM_ID, NAME, VALUE
+1, 1, room_no, 62
+2, 1, wheelchair_access, true
+3, 2, wheelchair_access, true
+
+--
+
+Item Type:
+- Name
+
+ITEM_TYPE_ID, NAME
+1, Room
+2, Transfer
+3, RoomAddition
+
+
+
+Product Category
+- 
+
+
+Product Price
+- Name
+
+---
+
+Product
+- Item ID
+- Price ID
+- Price Unit
+- StartDate : dd/mm/yyy
+- EndDate : dd/mm/yyy
+
+
+
+
+
+
+
+
+Room:
+- Name
+- Room Number
+- Establishment ID
+- Room Category ID
+
+Room Category:
+- Name
+
+Room Price
+- Room Category ID
+- Normal Price ID
+- Peak Price ID
+- Senior Price ID
+- StartDate : dd/mm/yyy
+- EndDate : dd/mm/yyy
+
+Price
+- Name
+- Price
+
+
+
+
+
+RoomTypes:
+- RoomID
+- Name
+- 
+
+
+Room Category:
+- Name
+- Description
+- Establishment
+
+Room Category Varient:
+- Room Category ID
+- Normal Price ID
+- Peak Price ID
+- Senior Price ID
+
+Price
+- Name
+- Mon Price
+- Tue Price
+- Wed Price
+- Thu Price
+- Fri Price
+- Sat Price
+- Sun Price
+
+Bookings
+
+Customers
+
+======================
+
+
+===================================
+
+Establishment:
+- Name
+
+ESTABLISHMENT_ID, ESTABLISHMENT
+1, Coco Grove Beach Resort
+2, Apo Island Beach Resort
+
+--
+
+Item:
+- Name
+
+PRODUCT_ID, NAME
+1, Standard Room
+2, Duma to Siquijor
+3, Breakfast for 1
+
+-- 
+
+Item Meta:
+- Item ID
+- Key (room_no)
+- Value
+
+ITEM_META_ID, ITEM_ID, NAME, VALUE
+1, 1, room_no, 62
+2, 1, wheelchair_access, true
+3, 1, smoking, false
+4, 2, provider, OceanJet
+
+--
+
+Item Price
+- Name
+- Published Rate
+- Peak Rate Rate
+- Senior Discount Rate
+
+PRICE_ID, NAME, PUBLISHED_RATE, PEAK_RATE, SENIOR_DISCOUNT_RATE, 
+1, Standard Room, 4000, 4100, 3900
+2, Deluxe Room, 5200, 5300, 5100
+3, One Way Ferry Transfer, 500, 510, 490
+3, Return Way Ferry Transfer, 1000, 1100, 900
+
+--
+
+Item Pricing Unit
+- Name
+
+PRICE_UNIT_ID, NAME
+1, per person
+2, per room
+3, per way
+
+--
+
+Item Type:
+- Name
+
+ITEM_TYPE_ID, NAME
+1, Room
+2, Transfer
+3, RoomAddition
+
+--
+
+Product
+- Item ID
+- Item Price ID
+- Item Price Unit ID
+- Item Type ID
+- StartDate : dd/mm/yyy
+- EndDate : dd/mm/yyy
+
+ITEM_ID, ITEM_PRICE_ID, ITEM_PRICE_UNIT_ID, ITEM_TYPE_ID, START_DATE, END_DATE
+1,1,2,1,01/01/2020,31/12/2020
+2,3,1,2,01/01/2020,31/12/2020
+
+example:
+
+Standard Room, 4000, per room, room, 01/01/2020, 31/12/2020
+
+---
+
+Contact:
+- First Name
+- Last Name
+- Email
+
+PRODUCT_ID, NAME
+1, Tom, Storms, tom@imperium.com
+2, Jo, Doe, joe@doe.com
+
+-- 
+
+Contact Meta:
+- Contact ID
+- Key (room_no)
+- Value
+
+ITEM_META_ID, ITEM_ID, NAME, VALUE
+1, 1, street_address, PO BOX 123
+2, 1, street_suburb, Brisbane
+3, 1, date_of_birth, 01/01/1980
+
+--
+
+Reservation
+- Product ID
+- Contact ID
+- Check In
+- Check Out
+
+PRODUCT_ID, CHECK_IN, CHECK_OUT, CONTACT_ID
+1,01/01/2020,02/01/2020,1
+1,01/01/2020,02/01/2020,2
+
+--
+
+RoomReservation
+- Reservation ID
+- Booking ID
+
+---
+
+Booking
+- Contact ID
+- Booking Ref No
+- Status
+
+
+
+
+
+
+
+
+
+
+
+
+ssh ubuntu@54.79.42.34 -i ~/Desktop/Repos/ec2.pem

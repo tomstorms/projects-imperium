@@ -5,6 +5,7 @@ import AuthContext from './context/auth-context';
 
 import Navbar from './components/Navbar/Navbar';
 import NavbarLoggedIn from './components/Navbar/Navbar-LoggedIn';
+import Sidebar from './components/Sidebar/Sidebar';
 
 import HomePage from './pages/Home/Home';
 import LoginPage from './pages/Login/Login';
@@ -14,9 +15,23 @@ import LogoutPage from './pages/Login/Logout';
 import ErrorPage from './pages/Error/Error';
 
 import AdminPage from './pages/Admin/Admin';
-import EstablishmentsPage from './pages/Admin/Establishments/Establishments';
-import RoomCategoryPage from './pages/Admin/RoomCategory/RoomCategory';
-import RoomsPage from './pages/Admin/Rooms/Rooms';
+import AdminEstablishmentsPage from './pages/Admin/Establishments/Establishments';
+import AdminRoomCategoryPage from './pages/Admin/RoomCategory/RoomCategory';
+import AdminRoomsPage from './pages/Admin/Rooms/Rooms';
+
+import ReservationsPage from './pages/Reservations/List';
+import ReservationsNewPage from './pages/Reservations/New';
+import ReservationsEditPage from './pages/Reservations/Edit';
+
+import TransfersPage from './pages/Transfers/List';
+import TransfersNewPage from './pages/Transfers/New';
+import TransfersEditPage from './pages/Transfers/Edit';
+
+import DeliveriesPage from './pages/Deliveries/List';
+import DeliveriesNewPage from './pages/Deliveries/New';
+import DeliveriesEditPage from './pages/Deliveries/Edit';
+
+import EmailPage from './pages/Email/Inbox';
 
 import './App.css';
 
@@ -128,6 +143,12 @@ class App extends Component {
                     </section>
                 </header>
 
+                {isLoggedIn && (
+                    <aside>
+                        <Sidebar></Sidebar>
+                    </aside>
+                )}
+
                 <main>
                 <Switch>
                     {isLoggedIn && <Redirect from="/" to="/dashboard" exact /> }
@@ -136,9 +157,23 @@ class App extends Component {
                     {isLoggedIn && <Route path="/logout" component={LogoutPage} exact /> }
                     
                     {isLoggedIn && <Route path="/admin" component={AdminPage} exact /> }
-                    {isLoggedIn && <Route path="/admin/establishments" component={EstablishmentsPage} exact /> }
-                    {isLoggedIn && <Route path="/admin/rooms" component={RoomsPage} exact /> }
-                    {isLoggedIn && <Route path="/admin/room-category" component={RoomCategoryPage} exact /> }
+                    {isLoggedIn && <Route path="/admin/establishments" component={AdminEstablishmentsPage} exact /> }
+                    {isLoggedIn && <Route path="/admin/rooms" component={AdminRoomsPage} exact /> }
+                    {isLoggedIn && <Route path="/admin/room-category" component={AdminRoomCategoryPage} exact /> }
+
+                    {isLoggedIn && <Route path="/reservations" component={ReservationsPage} exact /> }
+                    {isLoggedIn && <Route path="/reservations/new" component={ReservationsNewPage} exact /> }
+                    {isLoggedIn && <Route path="/reservations/edit/{id}" component={ReservationsEditPage} exact /> }
+
+                    {isLoggedIn && <Route path="/transfers" component={TransfersPage} exact /> }
+                    {isLoggedIn && <Route path="/transfers/new" component={TransfersNewPage} exact /> }
+                    {isLoggedIn && <Route path="/transfers/edit/{id}" component={TransfersEditPage} exact /> }
+
+                    {isLoggedIn && <Route path="/deliveries" component={DeliveriesPage} exact /> }
+                    {isLoggedIn && <Route path="/deliveries/new" component={DeliveriesNewPage} exact /> }
+                    {isLoggedIn && <Route path="/deliveries/edit/{id}" component={DeliveriesEditPage} exact /> }
+
+                    {isLoggedIn && <Route path="/email" component={EmailPage} exact /> }
                     
                     {!isLoggedIn && <Redirect from="/dashboard" to="/login" exact /> }
                     {!isLoggedIn && <Redirect from="/rooms" to="/login" exact /> }

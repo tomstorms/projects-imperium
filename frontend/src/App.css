@@ -161,6 +161,9 @@ header {
     background: #fff;
     box-shadow: 0 0 3px rgba(31,30,47,.05);
 }
+.page-wrapper.loggedin header {
+    padding-left: 60px;
+}
 
 .section--navbar {
     display: flex;
@@ -179,7 +182,7 @@ header.loggedin .section--navbar {
 /* Footer */
 footer {
     background: var(--offWhite);
-    min-height: 70px;
+    min-height: 40px;
     display: flex;
     align-items: center;
     text-align: right;
@@ -239,11 +242,15 @@ img {
 }
 
 /* Page Styles */
-main {
-    min-height: 20vh;
-}
 .page-wrapper {
     background: var(--mainBackground);
+}
+.page-wrapper.loggedin {
+    padding-left: 60px;
+}
+
+main {
+    min-height: calc(100vh - 70px - 40px - 2px);
 }
 
 section {
@@ -287,7 +294,7 @@ section.section--heading .description {
 }
 
 section.section--footer {
-    padding: 1.5rem 1rem !important;
+    padding: 0.5rem 1rem !important;
     font-size: 0.8em;
 }
 
