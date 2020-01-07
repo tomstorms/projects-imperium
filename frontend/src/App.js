@@ -178,15 +178,15 @@ class App extends Component {
 
                     {isLoggedIn && <Route path="/reservations" component={ReservationsPage} exact /> }
                     {isLoggedIn && <Route path="/reservations/new" component={ReservationsNewPage} exact /> }
-                    {isLoggedIn && <Route path="/reservations/edit/{id}" component={ReservationsEditPage} exact /> }
+                    {isLoggedIn && <Route path="/reservations/edit/:id" component={ReservationsEditPage} exact /> }
 
                     {isLoggedIn && <Route path="/transfers" component={TransfersPage} exact /> }
                     {isLoggedIn && <Route path="/transfers/new" component={TransfersNewPage} exact /> }
-                    {isLoggedIn && <Route path="/transfers/edit/{id}" component={TransfersEditPage} exact /> }
+                    {isLoggedIn && <Route path="/transfers/edit/:id" component={TransfersEditPage} exact /> }
 
                     {isLoggedIn && <Route path="/deliveries" component={DeliveriesPage} exact /> }
                     {isLoggedIn && <Route path="/deliveries/new" component={DeliveriesNewPage} exact /> }
-                    {isLoggedIn && <Route path="/deliveries/edit/{id}" component={DeliveriesEditPage} exact /> }
+                    {isLoggedIn && <Route path="/deliveries/edit/:id" component={DeliveriesEditPage} exact /> }
 
                     {isLoggedIn && <Route path="/contacts" component={ContactsPage} exact /> }
 
