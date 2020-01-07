@@ -43,10 +43,18 @@
 .table td.actions .btn {
     margin-left: 0.5rem;
 }
+.table td.actions .btn img {
+    height: 20px;
+    width: 20px;
+}
 
 .table td.actions .btn--edit {
     color: darkblue;
 }
+.table td.actions .btn--edit:hover img {
+    filter: invert(43%) sepia(76%) saturate(2385%) hue-rotate(209deg) brightness(97%) contrast(98%);
+}
+
 
 .table td.actions .btn--delete {
     color: darkred;
@@ -55,3 +63,7 @@
     color: red;
     border-color: red;
 }
+.table td.actions .btn--delete:hover img {
+    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+

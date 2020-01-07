@@ -31,6 +31,8 @@ import DeliveriesPage from './pages/Deliveries/List';
 import DeliveriesNewPage from './pages/Deliveries/New';
 import DeliveriesEditPage from './pages/Deliveries/Edit';
 
+import ContactsPage from './pages/Contacts/Contacts';
+
 import EmailPage from './pages/Email/Inbox';
 
 import './App.css';
@@ -59,6 +61,7 @@ class App extends Component {
     
     logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('estId');
         this.setState({
             token: null,
             tokenExpiration: null,
@@ -71,7 +74,20 @@ class App extends Component {
     }
 
     componentDidMount = () => {
+        this.checkIfConnected();
         this.loadEstablishmentData();
+    }
+
+    checkIfConnected = () => {
+        if (navigator.onLine) {
+            // Is online
+            return true;
+        }
+        else {
+            // Is offline
+            this.logout();
+            return false;
+        }
     }
 
     loadEstablishmentData = () => {
@@ -110,7 +126,6 @@ class App extends Component {
                 throw new Error('Unable to load establishments');
             }
         }).catch(err => {
-            // this.showErrorMessage(err.message);
             console.log(err.message);
             return;
         });
@@ -172,6 +187,8 @@ class App extends Component {
                     {isLoggedIn && <Route path="/deliveries" component={DeliveriesPage} exact /> }
                     {isLoggedIn && <Route path="/deliveries/new" component={DeliveriesNewPage} exact /> }
                     {isLoggedIn && <Route path="/deliveries/edit/{id}" component={DeliveriesEditPage} exact /> }
+
+                    {isLoggedIn && <Route path="/contacts" component={ContactsPage} exact /> }
 
                     {isLoggedIn && <Route path="/email" component={EmailPage} exact /> }
                     
