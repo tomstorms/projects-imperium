@@ -11,3 +11,7 @@ This project relies on the "projects-imperium-db" project as its API/database.
 ## FRONT END
 
 `/frontend`
+
+## Ubuntu Setup
+
+pm2 start /var/www/projects-imperium/frontend/node_modules/react-scripts/scripts/start.js --name "imperium-frontend"
