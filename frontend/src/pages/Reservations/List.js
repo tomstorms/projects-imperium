@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import AuthContext from '../../context/auth-context';
 import Spinner from '../../components/Spinner/Spinner';
+import Modal from '../../components/Modal/Modal';
 
 import ReservationTable from '../../components/Table/ReservationTable';
 import TileList from '../../components/TileList/TileList';
@@ -12,13 +13,21 @@ import './Reservations.css';
 export default class ReservationsList extends Component {
     state = {
         isLoading: false,
+        isCreating: false,
         reservationData: [],
+        contactData: [],
     };
 
     static contextType = AuthContext;
 
+    constructor(props) {
+        super(props);
+        this.contactIdElRef = React.createRef();
+    }
+
     componentDidMount() {
         this.getReservations();
+        this.getContacts();
     };
 
     getReservations = () => {
@@ -46,6 +55,27 @@ export default class ReservationsList extends Component {
         });
     }
 
+    getContacts = () => {
+        const requestBody = {
+            query: `
+                query {
+                    contacts {
+                        _id
+                        first_name
+                        last_name
+                        email
+                    }
+                }
+            `,
+        };
+
+        this.fetchData(requestBody, (contactData, err) => {
+            if (contactData.contacts) {
+                this.setState({contactData: contactData.contacts});
+            }
+        });
+    }
+
     deleteReservation = (reservationId) => {
         const requestBody = {
             query: `
@@ -66,6 +96,34 @@ export default class ReservationsList extends Component {
                     });
                     return { reservationData: reservationData };
                 });
+            }
+        });
+    }
+
+    createReservation = (data) => {
+        const requestBody = {
+            query: `
+                mutation CreateReservation($primary_contact_id: String!) {
+                    createReservation(reservationInput:{primary_contact_id: $primary_contact_id}) {
+                        _id
+                        booking_ref
+                        primary_contact {
+                            _id
+                            first_name
+                            last_name
+                            email
+                        }
+                    }
+                }
+            `,
+            variables: {
+                primary_contact_id: data.primaryContactId,
+            }
+        };
+
+        this.fetchData(requestBody, (resData, err) => {
+            if (resData.createReservation && resData.createReservation.booking_ref) {
+                window.location.href = "/reservations/edit/" + resData.createReservation.booking_ref;
             }
         });
     }
@@ -105,7 +163,7 @@ export default class ReservationsList extends Component {
     };
 
     createHandler = () => {
-        window.location.href = "/reservations/new";
+        this.setState({selectedRoomObj: null, isCreating: true});
     }
 
     editHandler = bookingRef => {
@@ -117,6 +175,20 @@ export default class ReservationsList extends Component {
         if (confirmModal === true) {
             this.deleteReservation(reservationId);
         }
+    };
+
+    modalConfirmHandler = () => {
+        const contactId = this.contactIdElRef.current.value;
+        if (this.state.isCreating) {
+            const requestBody = {
+                primaryContactId: contactId,
+            };
+            this.createReservation(requestBody);
+        }
+    }
+
+    modalCancelHandler = () => {
+        this.setState({selectedRoomObj: null, isEditing: false, isCreating: false});
     };
 
     render() {
@@ -135,6 +207,24 @@ export default class ReservationsList extends Component {
                             />
                         </TileBlock>
                     </TileList>
+
+                    { 
+                        (this.state.isCreating) &&
+                        <Modal title="Add a new Reservation" canCancel canConfirm onCancel={this.modalCancelHandler} onConfirm={this.modalConfirmHandler} confirmText="Create Reservation">
+                            <form>
+                                <div className="form-control">
+                                    <label htmlFor="contactId">Primary Contact:</label>
+                                    <select ref={this.contactIdElRef}>
+                                        { this.state.contactData.map((contact,index) => {
+                                            return (
+                                                <option key={index} value={contact._id}>{contact.first_name} {contact.last_name}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                            </form>
+                        </Modal>
+                    } 
                 </React.Fragment>
             );
         }

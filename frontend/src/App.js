@@ -20,7 +20,6 @@ import AdminRoomCategoryPage from './pages/Admin/RoomCategory/RoomCategory';
 import AdminRoomsPage from './pages/Admin/Rooms/Rooms';
 
 import ReservationsPage from './pages/Reservations/List';
-import ReservationsNewPage from './pages/Reservations/New';
 import ReservationsEditPage from './pages/Reservations/Edit';
 
 import TransfersPage from './pages/Transfers/List';
@@ -181,7 +180,6 @@ class App extends Component {
                     {isLoggedIn && <Route path="/admin/room-category" component={AdminRoomCategoryPage} exact /> }
 
                     {isLoggedIn && <Route path="/reservations" component={ReservationsPage} exact /> }
-                    {isLoggedIn && <Route path="/reservations/new" component={ReservationsNewPage} exact /> }
                     {isLoggedIn && <Route path="/reservations/edit/:id" component={ReservationsEditPage} exact /> }
 
                     {isLoggedIn && <Route path="/transfers" component={TransfersPage} exact /> }
