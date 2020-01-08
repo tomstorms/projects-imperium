@@ -75,7 +75,11 @@ class App extends Component {
 
     componentDidMount = () => {
         this.checkIfConnected();
-        this.loadEstablishmentData();
+
+        const isLoggedIn = (this.state.token);
+        if (isLoggedIn) {
+            this.loadEstablishmentData();
+        }
     }
 
     checkIfConnected = () => {
