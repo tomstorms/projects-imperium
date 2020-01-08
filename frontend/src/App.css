@@ -251,7 +251,7 @@ img {
 }
 
 main {
-    min-height: calc(100vh - 70px - 40px - 2px);
+    min-height: calc(95vh - 70px - 40px - 2px);
 }
 
 section {
