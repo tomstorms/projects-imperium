@@ -68,17 +68,6 @@ const Sidebar = props => (
                                         Reservations
                                     </span>
                                 </NavLink>
-                                <ul>
-                                    <li>
-                                        <div className="menu-item">
-                                            <NavLink to="/reservations/new">
-                                                <span className="nav-text">
-                                                    New Reservation
-                                                </span>
-                                            </NavLink>
-                                        </div>
-                                    </li>
-                                </ul>
                             </div>
                         </li>
                         <li>
