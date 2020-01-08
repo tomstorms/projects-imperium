@@ -14,7 +14,7 @@ export default class EmailInbox extends Component {
                     <p className="description">Emails could be piped and interacted on this platform.</p>
                 </section>
                 <section className="section">
-                    <img src={InboxPlaceholder} />
+                    <img src={InboxPlaceholder} alt="" />
                 </section>
             </div>
         )

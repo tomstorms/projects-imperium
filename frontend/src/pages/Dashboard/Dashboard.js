@@ -30,7 +30,7 @@ export default class Dashboard extends Component {
                     <p className="description">Below is a placeholder screenshot demonstrating potential functionality for this page.</p>
                 </section>
                 <section className="section">
-                    <img src={DashboardPlaceholder} />
+                    <img src={DashboardPlaceholder} alt=""/>
                 </section>
             </div>
         )

@@ -8,7 +8,7 @@ const TileLink = props => (
         <div className={props.icon ? 'tile-header tile-header--icon' : 'tile-header'}>
             { props.icon && 
             <div className="icon-container">
-                {props.link && <img src={props.icon} /> }
+                {props.link && <img src={props.icon} alt="" /> }
             </div>
             }
             <div className="text-container">
