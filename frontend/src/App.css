@@ -243,10 +243,11 @@ img {
 
 /* Page Styles */
 .page-wrapper {
-    background: var(--mainBackground);
+    background: var(--mainWhite);
 }
 .page-wrapper.loggedin {
     padding-left: 60px;
+    background: var(--mainBackground);
 }
 
 main {
