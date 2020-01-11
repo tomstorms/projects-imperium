@@ -28,8 +28,12 @@ const EstablishmentTable = props => (
                             <tr key={index}>
                                 <td>{estData.name}</td>
                                 <td className="actions">
-                                    <button className="btn btn--edit" onClick={props.onEdit.bind(this, estData._id)}><img src={IconEdit} alt="Edit" /></button>
-                                    <button className="btn btn--delete" onClick={props.onDelete.bind(this, estData._id)}><img src={IconDelete} alt="Edit" /></button>
+                                    {props.onEdit && 
+                                        <button className="btn btn--edit" onClick={props.onEdit.bind(this, estData._id)}><img src={IconEdit} alt="Edit" /></button>
+                                    }
+                                    {props.onDelete && 
+                                        <button className="btn btn--delete" onClick={props.onDelete.bind(this, estData._id)}><img src={IconDelete} alt="Edit" /></button>
+                                    }
                                 </td>
                             </tr>
                         )

@@ -29,8 +29,12 @@ const ReservationTable = props => (
                                 <td>{reservationData.booking_ref}</td>
                                 <td>{reservationData.primary_contact.first_name} {reservationData.primary_contact.last_name}</td>
                                 <td className="actions">
-                                    <button className="btn btn--edit" onClick={props.onEdit.bind(this, reservationData.booking_ref)}><img src={IconEdit} alt="Edit" /></button>
-                                    <button className="btn btn--delete" onClick={props.onDelete.bind(this, reservationData._id)}><img src={IconDelete} alt="Edit" /></button>
+                                    {props.onEdit && 
+                                        <button className="btn btn--edit" onClick={props.onEdit.bind(this, reservationData.booking_ref)}><img src={IconEdit} alt="Edit" /></button>
+                                    }
+                                    {props.onDelete && 
+                                        <button className="btn btn--delete" onClick={props.onDelete.bind(this, reservationData._id)}><img src={IconDelete} alt="Edit" /></button>
+                                    }
                                 </td>
                             </tr>
                         )

@@ -30,8 +30,12 @@ const ContactTable = props => (
                                 <td>{contactData.last_name}</td>
                                 <td>{contactData.email}</td>
                                 <td className="actions">
-                                    <button className="btn btn--edit" onClick={props.onEdit.bind(this, contactData._id)}><img src={IconEdit} alt="Edit" /></button>
-                                    <button className="btn btn--delete" onClick={props.onDelete.bind(this, contactData._id)}><img src={IconDelete} alt="Edit" /></button>
+                                    {props.onEdit && 
+                                        <button className="btn btn--edit" onClick={props.onEdit.bind(this, contactData._id)}><img src={IconEdit} alt="Edit" /></button>
+                                    }
+                                    { props.onDelete &&
+                                        <button className="btn btn--delete" onClick={props.onDelete.bind(this, contactData._id)}><img src={IconDelete} alt="Edit" /></button>
+                                    }
                                 </td>
                             </tr>
                         )

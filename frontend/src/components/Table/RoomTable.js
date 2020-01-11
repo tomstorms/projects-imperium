@@ -31,8 +31,12 @@ const RoomCategoryTable = props => (
                                 <td>{roomCategoryData.room_category.name}</td>
                                 <td>{roomCategoryData.room_category.establishment.name}</td>
                                 <td className="actions">
-                                    <button className="btn btn--edit" onClick={props.onEdit.bind(this, roomCategoryData._id)}><img src={IconEdit} alt="Edit" /></button>
-                                    <button className="btn btn--delete" onClick={props.onDelete.bind(this, roomCategoryData._id)}><img src={IconDelete} alt="Edit" /></button>
+                                    {props.onEdit && 
+                                        <button className="btn btn--edit" onClick={props.onEdit.bind(this, roomCategoryData._id)}><img src={IconEdit} alt="Edit" /></button>
+                                    }
+                                    {props.onDelete && 
+                                        <button className="btn btn--delete" onClick={props.onDelete.bind(this, roomCategoryData._id)}><img src={IconDelete} alt="Edit" /></button>
+                                    }
                                 </td>
                             </tr>
                         )
