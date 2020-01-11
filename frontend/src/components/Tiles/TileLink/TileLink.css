@@ -25,3 +25,9 @@
 .tile-link .tile-header--icon .text-container {
     width: 100%;
 }
+
+@media only screen and (max-width: 991px) {
+    .tile-link .tile-header--icon .icon-container {
+        width: 100%;
+    }
+}

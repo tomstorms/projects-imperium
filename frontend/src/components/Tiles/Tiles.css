@@ -29,6 +29,7 @@ section.section--tiles .tile {
     position: relative;
 }
 section.section--tiles .tile .tile-header {
+    flex-direction: row;
     flex: 1 1 auto;
     padding: 1.25rem;
 }
@@ -62,4 +63,10 @@ section.section--tiles .tile .btn--new {
     position: absolute;
     top: 15px;
     right: 20px;
+}
+
+@media only screen and (max-width: 991px) {
+    section.section--tiles .tile .tile-header {
+        flex-direction: column;
+    }
 }
