@@ -84,10 +84,6 @@ export default class Login extends Component {
 
                 this.context.login(
                     resData.data.login.token,
-                    resData.data.login.tokenExpiration,
-                    resData.data.login.userId,
-                    resData.data.login.userRole,
-                    resData.data.login.userProfile,
                 );
                 window.location.href = '/dashboard';
             }

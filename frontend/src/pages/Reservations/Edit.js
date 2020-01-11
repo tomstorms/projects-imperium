@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import AuthContext from '../../context/auth-context';
 import Spinner from '../../components/Spinner/Spinner';
+import Alert from '../../components/Alert/Alert';
 
 import TileList from '../../components/TileList/TileList';
 import TileBlock from '../../components/Tiles/TileBlock/TileBlock';
@@ -108,6 +109,14 @@ export default class ReservationsEdit extends Component {
                     </TileList>
                 </React.Fragment>
             );
+
+            if (this.context.userRole !== 'superadmin') {
+                content = (
+                    <section className="section section--error">
+                        <Alert message="You must be a superadmin to access this page." ></Alert>
+                    </section>
+                )
+            }
         }
 
         return (

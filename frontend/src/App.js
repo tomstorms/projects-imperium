@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
+import jwt from 'jsonwebtoken';
+
 import AuthContext from './context/auth-context';
 
 import Navbar from './components/Navbar/Navbar';
@@ -44,23 +46,20 @@ class App extends Component {
         userRole: null,
         userProfile: null,
         estData: null,
-        estId: sessionStorage.getItem('estId'),
+        estId: null,
     }
     
-    login = (token, tokenExpiration, userId, userRole, userProfile) => {
+    login = (token) => {
         localStorage.setItem('token', token);
-        this.setState({ 
+        this.setState({
             token: token,
-            tokenExpiration: tokenExpiration,
-            userId: userId,
-            userRole: userRole,
-            userProfile: userProfile,
         });
+
+        this.authUser();
     }
     
     logout = () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('estId');
         this.setState({
             token: null,
             tokenExpiration: null,
@@ -73,7 +72,8 @@ class App extends Component {
     }
 
     componentDidMount = () => {
-        this.checkIfConnected();
+        this.authUser();
+        this.sessionValid();
 
         const isLoggedIn = (this.state.token);
         if (isLoggedIn) {
@@ -81,17 +81,62 @@ class App extends Component {
         }
     }
 
-    checkIfConnected = () => {
-        if (navigator.onLine) {
-            // Is online
-            return true;
+    sessionValid = () => {
+
+        // Check if token provided
+        const hasToken = (this.state.token);
+        if (!hasToken) { 
+            this.logout();
+            return false;
         }
-        else {
+
+        // Check if token expired
+        if (Date.now() >= (parseInt(this.state.tokenExpiration) * 1000)) {
+            this.logout();
+            return false;
+        }
+
+        // Check if online and has token
+        if (!navigator.onLine) {
             // Is offline
             this.logout();
             return false;
         }
+
+        return true;
+
     }
+
+    authUser = () => {
+
+        const token = this.state.token;
+        let decodedToken; 
+        try {
+            decodedToken = jwt.verify(token, process.env.REACT_APP_JWT_KEY);
+        } catch (err) {
+            if (err.message) {
+                console.log(err.message);
+            }
+            this.logout();
+            return false;
+        }
+    
+        if (!decodedToken) {
+            console.log('Invalid decoded token');
+            this.logout();
+            return false;
+        }
+
+        this.setState({ 
+            userId: decodedToken.userId,
+            userRole: decodedToken.userRole,
+            tokenExpiration: decodedToken.exp,
+            userProfile: null, // a future thing
+        });
+
+        return true;
+    }
+
 
     loadEstablishmentData = () => {
         const requestBody = {
@@ -150,6 +195,7 @@ class App extends Component {
             <BrowserRouter>
             <AuthContext.Provider value={{
                 token: this.state.token,
+                userRole: this.state.userRole,
                 login: this.login,
                 logout: this.logout
             }}>

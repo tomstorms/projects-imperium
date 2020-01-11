@@ -201,9 +201,9 @@ export default class ReservationsList extends Component {
                             <button className="btn btn-primary btn--new" onClick={this.createHandler}>Create New</button>
                             <ReservationTable 
                                 data={this.state.reservationData}
-                                onDelete={this.deleteHandler}
-                                onEdit={this.editHandler}
-                                onCreate={this.createHandler}
+                                onDelete={ (this.context.userRole === 'superadmin') ? this.deleteHandler : null }
+                                onEdit={ (this.context.userRole === 'superadmin') ? this.editHandler : null }
+                                onCreate={ (this.context.userRole === 'superadmin') ? this.createHandler : null }
                             />
                         </TileBlock>
                     </TileList>

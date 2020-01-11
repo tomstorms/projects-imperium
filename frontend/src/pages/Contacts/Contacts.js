@@ -251,6 +251,9 @@ export default class ContactsList extends Component {
     render() {
         let content = <Spinner />;
         if (!this.state.isLoading) {
+
+
+
             content = (
                 <React.Fragment>
                     <TileList col="1">
@@ -258,9 +261,9 @@ export default class ContactsList extends Component {
                             <button className="btn btn-primary btn--new" onClick={this.createHandler}>Create New</button>
                             <ContactTable 
                                 data={this.state.contactData}
-                                onDelete={this.deleteHandler}
-                                onEdit={this.editHandler}
-                                onCreate={this.createHandler}
+                                onDelete={ (this.context.userRole === 'superadmin') ? this.deleteHandler : null }
+                                onEdit={ (this.context.userRole === 'superadmin') ? this.editHandler : null }
+                                onCreate={ (this.context.userRole === 'superadmin') ? this.createHandler : null }
                             />
                         </TileBlock>
                     </TileList>

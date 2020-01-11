@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import AuthContext from '../../../context/auth-context';
 import Spinner from '../../../components/Spinner/Spinner';
 import Modal from '../../../components/Modal/Modal';
+import Alert from '../../../components/Alert/Alert';
 
 import RoomTable from '../../../components/Table/RoomTable';
 import TileList from '../../../components/TileList/TileList';
@@ -308,9 +309,9 @@ class RoomsPage extends Component {
                             <button className="btn btn-primary btn--new" onClick={this.createHandler}>Create New</button>
                             <RoomTable 
                                 data={this.state.roomData}
-                                onDelete={this.deleteHandler}
-                                onEdit={this.editHandler}
-                                onCreate={this.createHandler}
+                                onDelete={ (this.context.userRole === 'superadmin') ? this.deleteHandler : null }
+                                onEdit={ (this.context.userRole === 'superadmin') ? this.editHandler : null }
+                                onCreate={ (this.context.userRole === 'superadmin') ? this.createHandler : null }
                             />
                         </TileBlock>
                     </TileList>
@@ -368,6 +369,14 @@ class RoomsPage extends Component {
                     } 
                 </React.Fragment>
             );
+
+            if (this.context.userRole !== 'superadmin') {
+                content = (
+                    <section className="section section--error">
+                        <Alert message="You must be a superadmin to access this page." ></Alert>
+                    </section>
+                )
+            }
         }
 
         return (

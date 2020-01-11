@@ -131,14 +131,8 @@ export default class LoginRegister extends Component {
             }
 
             if (resData.data.login.token) {
-                console.log('exit doUserLogin');
-
                 this.context.login(
                     resData.data.login.token,
-                    resData.data.login.tokenExpiration,
-                    resData.data.login.userId,
-                    resData.data.login.userRole,
-                    resData.data.login.userProfile,
                 );
 
                 window.location.href = '/dashboard';
