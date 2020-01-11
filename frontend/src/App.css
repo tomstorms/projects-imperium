@@ -308,3 +308,7 @@ section.section--footer {
     letter-spacing: 0px;
     font-weight: 500;
 }
+
+.page-title + .description {
+    margin-top: 0.5rem;
+}
