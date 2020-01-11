@@ -41,11 +41,11 @@ const Sidebar = props => (
                             </div>
                         </li>
                         <li>
-                            <div className="menu-item">
-                                <NavLink to="/email">
-                                    <img src={IconEmail} alt="" className="icon icon--sidebar" />
+                            <div className="menu-item has-children">
+                                <NavLink to="/reservations">
+                                    <img src={IconReservations} alt="" className="icon icon--sidebar" />
                                     <span className="nav-text">
-                                        Email
+                                        Reservations
                                     </span>
                                 </NavLink>
                             </div>
@@ -61,21 +61,11 @@ const Sidebar = props => (
                             </div>
                         </li>
                         <li>
-                            <div className="menu-item has-children">
-                                <NavLink to="/reservations">
-                                    <img src={IconReservations} alt="" className="icon icon--sidebar" />
-                                    <span className="nav-text">
-                                        Reservations
-                                    </span>
-                                </NavLink>
-                            </div>
-                        </li>
-                        <li>
                             <div className="menu-item">
-                                <NavLink to="/deliveries">
-                                    <img src={IconDeliveries} alt="" className="icon icon--sidebar" />
+                                <NavLink to="/email">
+                                    <img src={IconEmail} alt="" className="icon icon--sidebar" />
                                     <span className="nav-text">
-                                        Deliveries
+                                        Email
                                     </span>
                                 </NavLink>
                             </div>
@@ -86,6 +76,16 @@ const Sidebar = props => (
                                     <img src={IconTransfers} alt="" className="icon icon--sidebar" />
                                     <span className="nav-text">
                                         Transfers
+                                    </span>
+                                </NavLink>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="menu-item">
+                                <NavLink to="/deliveries">
+                                    <img src={IconDeliveries} alt="" className="icon icon--sidebar" />
+                                    <span className="nav-text">
+                                        Deliveries
                                     </span>
                                 </NavLink>
                             </div>
